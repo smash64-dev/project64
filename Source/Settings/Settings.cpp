@@ -123,13 +123,6 @@ static mINI::INIStructure g_Ini;
 
 EXPORT void SetSettingInfo(PLUGIN_SETTINGS * info)
 {
-#if defined(LEGACY)
-    if (!g_PluginInitilized)
-        g_RegisteredSettings.clear();
-
-    g_IniFile.read(g_Ini);
-#endif
-
     g_PluginSettings = *info;
     g_PluginInitilized = true;
     info->UseUnregisteredSetting = UseUnregisteredSetting;
@@ -153,6 +146,17 @@ EXPORT void SetSettingNotificationInfo(PLUGIN_SETTINGS_NOTIFICATION * info)
 EXPORT void SetPluginNotification(PLUGIN_NOTIFICATION * info)
 {
     g_PluginNotification = *info;
+}
+
+void SettingsInitialize(void)
+{
+#if defined(LEGACY)
+    if (!g_PluginInitilized)
+        g_RegisteredSettings.clear();
+
+    g_IniFile.read(g_Ini);
+#endif
+    return;
 }
 
 int32_t SettingsInitilized(void)
@@ -396,10 +400,15 @@ const char * GetSettingSz(short SettingID, char * Buffer, int BufferLen)
     }
 
     REGISTERED_SETTING setting = itr->second;
+    std::string value;
+
     if (g_Ini.get(setting.Category).has(setting.Name))
-        return g_Ini.get(setting.Category).get(setting.Name).c_str();
+        value = g_Ini.get(setting.Category).get(setting.Name).c_str();
     else
-        return setting.DefaultStr;
+        value = setting.DefaultStr;
+
+    std::strcpy(Buffer, value.c_str());
+    return Buffer;
 #else
     return g_PluginSettings.GetSettingSz(g_PluginSettings.handle, SettingID + g_PluginSettings.SettingStartRange, Buffer, BufferLen);
 #endif

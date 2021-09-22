@@ -1,4 +1,8 @@
+#if defined(LEGACY)
+#include "ControllerSpec1.0.h"
+#else
 #include "ControllerSpec1.1.h"
+#endif
 #include "InputConfigUI.h"
 #include "Version.h"
 #include "CProject64Input.h"
@@ -33,9 +37,15 @@ Initialize controller: 01 03 00 FF FF FF
 Read controller: 01 04 01 FF FF FF FF
 */
 
+#if defined(LEGACY)
+EXPORT void CALL ControllerCommand(int Control, BYTE* Command)
+{
+}
+#else
 EXPORT void CALL ControllerCommand(int32_t /*Control*/, uint8_t * /*Command*/)
 {
 }
+#endif
 
 /*
 Function: DllAbout
@@ -45,9 +55,15 @@ Input: A handle to the window that calls this function.
 Output: None
 */
 
-//EXPORT void CALL DllAbout(void * hParent)
+#if defined(LEGACY)
+EXPORT void CALL DllAbout(HWND hParent)
+{
+}
+#else
+//EXPORT void CALL DllAbout(void* hParent)
 //{
 //}
+#endif
 
 /*
 Function: DllConfig
@@ -58,10 +74,17 @@ Output: None
 */
 
 #ifdef _WIN32
-EXPORT void CALL DllConfig(void * hParent)
+#if defined(LEGACY)
+EXPORT void CALL DllConfig(HWND hParent)
 {
     ConfigInput(hParent);
 }
+#else
+EXPORT void CALL DllConfig(void* hParent)
+{
+    ConfigInput(hParent);
+}
+#endif
 #endif
 
 /*
@@ -72,9 +95,15 @@ Input: A handle to the window that calls this function.
 Output: None
 */
 
-EXPORT void CALL DllTest(void * /*hParent*/)
+#if defined(LEGACY)
+EXPORT void CALL DllTest(HWND hParent)
 {
 }
+#else
+EXPORT void CALL DllTest(void* /*hParent*/)
+{
+}
+#endif
 
 /*
 Function: GetDllInfo
@@ -94,8 +123,10 @@ EXPORT void CALL GetDllInfo(PLUGIN_INFO * PluginInfo)
 #else
     sprintf(PluginInfo->Name, "Project64 input plugin: %s", VER_FILE_VERSION_STR);
 #endif
+#if !defined(LEGACY)
     PluginInfo->MemoryBswaped = true;
     PluginInfo->NormalMemory = false;
+#endif
 }
 
 /*
@@ -107,10 +138,17 @@ the controller state.
 Output: None
 */
 
+#if defined(LEGACY)
+EXPORT void CALL GetKeys(int Control, BUTTONS* Keys)
+{
+    g_InputPlugin->GetKeys(Control, Keys);
+}
+#else
 EXPORT void CALL GetKeys(int32_t Control, BUTTONS * Keys)
 {
     g_InputPlugin->GetKeys(Control, Keys);
 }
+#endif
 
 /*
 Function: InitiateControllers
@@ -121,6 +159,30 @@ the emulator to know how to handle each controller.
 Output: None
 */
 
+#if defined(LEGACY)
+EXPORT void CALL InitiateControllers(HWND hMainWindow, CONTROL Controls[4])
+{
+    if (!hMainWindow || hMainWindow == nullptr)
+        return;
+
+    CONTROL_INFO ControlInfo;
+    ControlInfo.hwnd = hMainWindow;
+    ControlInfo.hinst = ((HINSTANCE)GetWindowLong(hMainWindow, GWL_HINSTANCE));
+    ControlInfo.HEADER = NULL;  // this doesn't appear to be used
+    ControlInfo.Controls = Controls;
+
+    if (g_InputPlugin != nullptr)
+    {
+        g_InputPlugin->InitiateControllers(&ControlInfo);
+
+        for (int i = 0; i < 4; i++) {
+            Controls[i].Present = ControlInfo.Controls[i].Present;
+            Controls[i].RawData = ControlInfo.Controls[i].RawData;
+            Controls[i].Plugin = ControlInfo.Controls[i].Plugin;
+        }
+    }
+}
+#else
 EXPORT void CALL InitiateControllers(CONTROL_INFO * ControlInfo)
 {
     if (g_InputPlugin != nullptr)
@@ -128,6 +190,7 @@ EXPORT void CALL InitiateControllers(CONTROL_INFO * ControlInfo)
         g_InputPlugin->InitiateControllers(ControlInfo);
     }
 }
+#endif
 
 /*
 Function: ReadController
@@ -141,9 +204,15 @@ Note: This function is only needed if the DLL is allowing raw
 data.
 */
 
-EXPORT void CALL ReadController(int /*Control*/, uint8_t * /*Command*/)
+#if defined(LEGACY)
+EXPORT void CALL ReadController(int Control, BYTE* Command)
 {
 }
+#else
+EXPORT void CALL ReadController(int /*Control*/, uint8_t* /*Command*/)
+{
+}
+#endif
 
 /*
 Function: RomClosed
@@ -176,9 +245,15 @@ Input: wParam and lParam of the WM_KEYDOWN message.
 Output: None
 */
 
+#if defined(LEGACY)
+EXPORT void CALL WM_KeyDown(WPARAM wParam, LPARAM lParam)
+{
+}
+#else
 EXPORT void CALL WM_KeyDown(uint32_t /*wParam*/, uint32_t /*lParam*/)
 {
 }
+#endif
 
 /*
 Function: WM_KeyUp
@@ -188,9 +263,15 @@ Input: wParam and lParam of the WM_KEYDOWN message.
 Output: None
 */
 
+#if defined(LEGACY)
+EXPORT void CALL WM_KeyUp(WPARAM wParam, LPARAM lParam)
+{
+}
+#else
 EXPORT void CALL WM_KeyUp(uint32_t /*wParam*/, uint32_t /*lParam*/)
 {
 }
+#endif
 
 EXPORT void CALL PluginLoaded(void)
 {
@@ -198,17 +279,29 @@ EXPORT void CALL PluginLoaded(void)
 }
 
 #include <Windows.h>
+BOOL g_isLoaded = false;
 
-extern "C" int WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID /*lpReserved*/)
+extern "C" int WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpReserved)
 {
     if (fdwReason == DLL_PROCESS_ATTACH)
     {
         g_InputPlugin = new CProject64Input(hinst);
+
+#if defined(LEGACY)
+        if (!g_isLoaded) {
+            PluginLoaded();
+            g_isLoaded = true;
+        }
+#endif
     }
     else if (fdwReason == DLL_PROCESS_DETACH)
     {
         delete g_InputPlugin;
         g_InputPlugin = nullptr;
+
+#if defined(LEGACY)
+        g_isLoaded = false;
+#endif
     }
     return TRUE;
 }

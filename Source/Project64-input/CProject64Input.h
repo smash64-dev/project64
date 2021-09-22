@@ -1,5 +1,9 @@
 #pragma once
+#if defined(LEGACY)
+#include "ControllerSpec1.0.h"
+#else
 #include "ControllerSpec1.1.h"
+#endif
 #include "DirectInput.h"
 #include "N64Controller.h"
 #include <Common/CriticalSection.h>

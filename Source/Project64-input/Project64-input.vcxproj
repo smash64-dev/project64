@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ControllerSpec1.0.h" />
     <ClInclude Include="DeviceNotification.h" />
     <ClInclude Include="InputSettings.h" />
     <ClInclude Include="InputSettingsID.h" />

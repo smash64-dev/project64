@@ -2,7 +2,11 @@
 #include <stdint.h>
 #include <string>
 #include "N64Controller.h"
+#if defined(LEGACY)
+#include "ControllerSpec1.0.h"
+#else
 #include "ControllerSpec1.1.h"
+#endif
 
 class CInputSettings
 {

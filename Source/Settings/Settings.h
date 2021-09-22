@@ -33,6 +33,7 @@ extern "C" {
     };
 
     // Set other information about various settings
+    void SettingsInitialize(void);
     int SettingsInitilized(void);
     void SetModuleName(const char * Name);
     void RegisterSetting(short SettingID, SETTING_DATA_TYPE Type, const char * Name, const char * Category,

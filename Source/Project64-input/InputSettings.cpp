@@ -518,6 +518,10 @@ void CInputSettings::RegisterSettings(void)
 
 void SetupInputSettings(void)
 {
+#if defined(LEGACY)
+    SettingsInitialize();
+#endif
+
     if (g_Settings == nullptr)
     {
         g_Settings = new CInputSettings;
