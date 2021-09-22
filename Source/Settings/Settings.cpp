@@ -1,4 +1,10 @@
 #include <Settings/Settings.h>
+
+#if defined(LEGACY)
+#include <Settings/mINI.h>
+#include <map>
+#endif
+
 #include <Common/Platform.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -97,8 +103,33 @@ EXPORT void SetSettingInfo2(PLUGIN_SETTINGS2 * info);
 EXPORT void SetSettingInfo3(PLUGIN_SETTINGS3 * info);
 EXPORT void SetPluginNotification(PLUGIN_NOTIFICATION * info);
 
+#if defined(LEGACY)
+// mimics the parameters from both RegisterSettings
+typedef struct
+{
+    short SettingID;
+    SETTING_DATA_TYPE Type;
+    const char* Name;
+    const char* Category;
+    unsigned int DefaultDW;
+    const char* DefaultStr;
+    short DefaultID;
+} REGISTERED_SETTING;
+
+static std::map<short, REGISTERED_SETTING> g_RegisteredSettings;
+static mINI::INIFile g_IniFile("legacy.cfg");
+static mINI::INIStructure g_Ini;
+#endif
+
 EXPORT void SetSettingInfo(PLUGIN_SETTINGS * info)
 {
+#if defined(LEGACY)
+    if (!g_PluginInitilized)
+        g_RegisteredSettings.clear();
+
+    g_IniFile.read(g_Ini);
+#endif
+
     g_PluginSettings = *info;
     g_PluginInitilized = true;
     info->UseUnregisteredSetting = UseUnregisteredSetting;
@@ -137,6 +168,19 @@ void SetModuleName(const char * Name)
 void RegisterSetting(short SettingID, SETTING_DATA_TYPE Type, const char * Name, const char * Category,
     unsigned int DefaultDW, const char * DefaultStr)
 {
+#if defined(LEGACY)
+    REGISTERED_SETTING setting;
+    setting.SettingID = SettingID;
+    setting.Type = Type;
+    setting.Name = Name;
+    setting.Category = Category;
+    setting.DefaultDW = DefaultDW;
+    setting.DefaultStr = DefaultStr;
+    setting.DefaultID = 0;  // unused
+
+    g_RegisteredSettings.insert(std::pair<short, REGISTERED_SETTING>(SettingID, setting));
+    return;
+#else
     if (g_PluginSettings.RegisterSetting == nullptr)
     {
         return;
@@ -210,10 +254,24 @@ void RegisterSetting(short SettingID, SETTING_DATA_TYPE Type, const char * Name,
             DefaultID, Data_String, Location, FullCategory, Name, 0);
         break;
     }
+#endif
 }
 
 void RegisterSetting2(short SettingID, SETTING_DATA_TYPE Type, const char * Name, const char * Category, short DefaultID)
 {
+#if defined(LEGACY)
+    REGISTERED_SETTING setting;
+    setting.SettingID = SettingID;
+    setting.Type = Type;
+    setting.Name = Name;
+    setting.Category = Category;
+    setting.DefaultDW = 0;  // unused
+    setting.DefaultStr = 0; // unused
+    setting.DefaultID = DefaultID;
+
+    g_RegisteredSettings.insert(std::pair<short, REGISTERED_SETTING>(SettingID, setting));
+    return;
+#else
     SettingLocation Location = (SettingLocation)g_PluginSettings.DefaultLocation;
     char FullCategory[400];
     if (Category && Category[0] != 0)
@@ -263,71 +321,149 @@ void RegisterSetting2(short SettingID, SETTING_DATA_TYPE Type, const char * Name
             DefaultID + g_PluginSettings.SettingStartRange, Data_String, Location, FullCategory, Name, 0);
         break;
     }
+#endif
 }
 
 short FindSystemSettingId(const char * Name)
 {
+#if defined(LEGACY)
+    // adapted from CSettings::FindSetting
+    for (std::map<short, REGISTERED_SETTING>::iterator iter = g_RegisteredSettings.begin(); iter != g_RegisteredSettings.end(); iter++)
+    {
+        REGISTERED_SETTING Setting = iter->second;
+        if (_stricmp(Setting.Name, Name) == 0)
+            return Setting.SettingID;
+    }
+    return 0;
+#else
     if (g_PluginSettings2.FindSystemSettingId && g_PluginSettings.handle)
     {
         return (short)g_PluginSettings2.FindSystemSettingId(g_PluginSettings.handle, Name);
     }
     return 0;
+#endif
 }
 
 void FlushSettings(void)
 {
+#if defined(LEGACY)
+    g_IniFile.generate(g_Ini);
+#else
     if (g_PluginSettings3.FlushSettings && g_PluginSettings.handle)
     {
         g_PluginSettings3.FlushSettings(g_PluginSettings.handle);
     }
+#endif
 }
 
 unsigned int GetSetting(short SettingID)
 {
+#if defined(LEGACY)
+    std::map<short, REGISTERED_SETTING>::iterator itr = g_RegisteredSettings.find(SettingID);
+    if (itr == g_RegisteredSettings.end()) {
+        return 0;
+    }
+
+    REGISTERED_SETTING setting = itr->second;
+    if (g_Ini.get(setting.Category).has(setting.Name))
+        return (unsigned int)std::stoi(g_Ini.get(setting.Category).get(setting.Name));
+    else
+        return setting.DefaultDW;
+#else
     if (g_PluginSettings.GetSetting == nullptr)
     {
         return 0;
     }
     return g_PluginSettings.GetSetting(g_PluginSettings.handle, SettingID + g_PluginSettings.SettingStartRange);
+#endif
 }
 
 unsigned int GetSystemSetting(short SettingID)
 {
+#if defined(LEGACY)
+    return GetSetting(SettingID);
+#else
     return g_PluginSettings.GetSetting(g_PluginSettings.handle, SettingID);
+#endif
 }
 
 const char * GetSettingSz(short SettingID, char * Buffer, int BufferLen)
 {
+#if defined(LEGACY)
+    std::map<short, REGISTERED_SETTING>::iterator itr = g_RegisteredSettings.find(SettingID);
+    if (itr == g_RegisteredSettings.end()) {
+        return "";
+    }
+
+    REGISTERED_SETTING setting = itr->second;
+    if (g_Ini.get(setting.Category).has(setting.Name))
+        return g_Ini.get(setting.Category).get(setting.Name).c_str();
+    else
+        return setting.DefaultStr;
+#else
     return g_PluginSettings.GetSettingSz(g_PluginSettings.handle, SettingID + g_PluginSettings.SettingStartRange, Buffer, BufferLen);
+#endif
 }
 
 const char * GetSystemSettingSz(short SettingID, char * Buffer, int BufferLen)
 {
+#if defined(LEGACY)
+    return GetSettingSz(SettingID, Buffer, BufferLen);
+#else
     if (g_PluginSettings.GetSettingSz == nullptr)
     {
         return "";
     }
     return g_PluginSettings.GetSettingSz(g_PluginSettings.handle, SettingID, Buffer, BufferLen);
+#endif
 }
 
 void SetSetting(short SettingID, unsigned int Value)
 {
+#if defined(LEGACY)
+    std::map<short, REGISTERED_SETTING>::iterator itr = g_RegisteredSettings.find(SettingID);
+    if (itr == g_RegisteredSettings.end()) {
+        return;
+    }
+
+    REGISTERED_SETTING setting = itr->second;
+    g_Ini[setting.Category].set({ {setting.Name, std::to_string(Value)} });
+#else
     g_PluginSettings.SetSetting(g_PluginSettings.handle, SettingID + g_PluginSettings.SettingStartRange, Value);
+#endif
 }
 
 void SetSettingSz(short SettingID, const char * Value)
 {
+#if defined(LEGACY)
+    std::map<short, REGISTERED_SETTING>::iterator itr = g_RegisteredSettings.find(SettingID);
+    if (itr == g_RegisteredSettings.end()) {
+        return;
+    }
+
+    REGISTERED_SETTING setting = itr->second;
+    g_Ini[setting.Category].set({ {setting.Name, Value} });
+#else
     g_PluginSettings.SetSettingSz(g_PluginSettings.handle, SettingID + g_PluginSettings.SettingStartRange, Value);
+#endif
 }
 
 void SetSystemSetting(short SettingID, unsigned int Value)
 {
+#if defined(LEGACY)
+    SetSetting(SettingID, Value);
+#else
     g_PluginSettings.SetSetting(g_PluginSettings.handle, SettingID, Value);
+#endif
 }
 
 void SetSystemSettingSz(short SettingID, const char * Value)
 {
+#if defined(LEGACY)
+    SetSettingSz(SettingID, Value);
+#else
     g_PluginSettings.SetSettingSz(g_PluginSettings.handle, SettingID, Value);
+#endif
 }
 
 void SettingsRegisterChange(bool SystemSetting, int SettingID, void * Data, SettingChangedFunc Func)
