@@ -117,7 +117,7 @@ typedef struct
 } REGISTERED_SETTING;
 
 static std::map<short, REGISTERED_SETTING> g_RegisteredSettings;
-static mINI::INIFile g_IniFile("legacy.cfg");
+static const char * g_IniFileName;
 static mINI::INIStructure g_Ini;
 #endif
 
@@ -148,12 +148,17 @@ EXPORT void SetPluginNotification(PLUGIN_NOTIFICATION * info)
     g_PluginNotification = *info;
 }
 
-void SettingsInitialize(void)
+void SettingsInitialize(const char * filename)
 {
 #if defined(LEGACY)
-    if (!g_PluginInitilized)
-        g_RegisteredSettings.clear();
 
+    if (!g_PluginInitilized) {
+        g_PluginInitilized = true;
+        g_RegisteredSettings.clear();
+    }
+
+    g_IniFileName = filename;
+    mINI::INIFile g_IniFile(g_IniFileName);
     g_IniFile.read(g_Ini);
 #endif
     return;
@@ -351,6 +356,7 @@ short FindSystemSettingId(const char * Name)
 void FlushSettings(void)
 {
 #if defined(LEGACY)
+    mINI::INIFile g_IniFile(g_IniFileName);
     g_IniFile.generate(g_Ini);
 #else
     if (g_PluginSettings3.FlushSettings && g_PluginSettings.handle)

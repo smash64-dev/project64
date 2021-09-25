@@ -89,6 +89,9 @@
     <ClInclude Include="ControllerSpec1.0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerPak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Version.h.in">

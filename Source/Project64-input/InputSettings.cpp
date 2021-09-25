@@ -2,6 +2,7 @@
 #include <Common/StdString.h>
 #include "InputSettingsID.h"
 #include "InputSettings.h"
+#include "Version.h"
 
 CInputSettings * g_Settings = nullptr;
 
@@ -144,6 +145,7 @@ void CInputSettings::LoadController(uint32_t ControlIndex, CONTROL & ControllerI
 
     ControllerInfo.Present = ControlIndex < (sizeof(PresentSettings) / sizeof(PresentSettings[0])) ? GetSetting((short)PresentSettings[ControlIndex]) != 0 : 0;
     ControllerInfo.Plugin = ControlIndex < (sizeof(PluginSettings) / sizeof(PluginSettings[0])) ? GetSetting((short)PluginSettings[ControlIndex]) : Default_Plugin;
+    ControllerInfo.RawData = true;
     Controller.Range = (uint8_t)(ControlIndex < (sizeof(RangeSettings) / sizeof(RangeSettings[0])) ? GetSetting((short)RangeSettings[ControlIndex]) : Default_Range);
     if (Controller.Range == 0) { Controller.Range = 1; }
     if (Controller.Range > 100) { Controller.Range = 100; }
@@ -519,7 +521,7 @@ void CInputSettings::RegisterSettings(void)
 void SetupInputSettings(void)
 {
 #if defined(LEGACY)
-    SettingsInitialize();
+    SettingsInitialize("Plugin/" VER_PRODUCTNAME_STR ".ini");
 #endif
 
     if (g_Settings == nullptr)

@@ -19,6 +19,7 @@ public:
     void DeviceAdded(void);
     void InitiateControllers(CONTROL_INFO * ControlInfo);
     void GetKeys(int32_t Control, BUTTONS * Keys);
+    void ReadController(int32_t Control, uint8_t * Command);
     void StartScanDevices(int32_t DisplayCtrlId);
     void EndScanDevices(void);
     CDirectInput::ScanResult ScanDevices(BUTTON & Button);

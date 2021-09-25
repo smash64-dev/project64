@@ -9,6 +9,7 @@ http://www.egroups.com/group/Plugin64-Dev
 #define _CONTR_H_INCLUDED__
 
 #include <windows.h>
+#include "ControllerPak.h"
 
 #if defined(__cplusplus)
 extern "C" {

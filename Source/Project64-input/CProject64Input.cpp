@@ -81,6 +81,43 @@ void CProject64Input::GetKeys(int32_t Control, BUTTONS * Keys)
     m_DirectInput->GetAxis(Controller, Keys);
 }
 
+void CProject64Input::ReadController(int32_t Control, uint8_t* Command)
+{
+    if (Control >= sizeof(m_Controllers) / sizeof(m_Controllers[0]))
+    {
+        return;
+    }
+    if (!m_ControlInfo.Controls[Control].Present)
+        return;
+
+    switch (Command[2])
+    {
+    // not implemented
+    case RD_GETSTATUS:
+        break;
+
+    case RD_READKEYS:
+        GetKeys(Control, (BUTTONS *) &Command[3]);
+        break;
+
+    // not implemented
+    case RD_READPAK:
+    case RD_WRITEPAK:
+
+    // handled by emulator
+    case RD_READEEPROM:
+    case RD_WRITEEPROM:
+        break;
+
+    // not implemented
+    case RD_RESETCONTROLLER:
+        break;
+
+    default:
+        break;
+    }
+}
+
 void CProject64Input::StartScanDevices(int32_t DisplayCtrlId)
 {
     m_Scanning = true;
