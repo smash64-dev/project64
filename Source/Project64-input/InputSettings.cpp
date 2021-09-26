@@ -27,6 +27,11 @@ static char * Control0_R_ANALOG_Default = "{6F1D2B61-D5A0-11CF-BFC7-444553540000
 static const uint32_t Default_DeadZone = 25;
 static const uint32_t Default_Range = 100;
 static const uint32_t Default_Plugin = PLUGIN_MEMPAK;
+#if defined(NETPLAY)
+static const bool Default_RawData = true;
+#else
+static const bool Default_RawData = false;
+#endif
 static const bool Default_RealN64Range = true;
 static const bool Default_RemoveDuplicate = true;
 
@@ -138,6 +143,7 @@ void CInputSettings::LoadController(uint32_t ControlIndex, CONTROL & ControllerI
 
     InputSettingID PresentSettings[] = { Set_Control0_Present, Set_Control1_Present, Set_Control2_Present, Set_Control3_Present };
     InputSettingID PluginSettings[] = { Set_Control0_Plugin, Set_Control1_Plugin, Set_Control2_Plugin, Set_Control3_Plugin };
+    InputSettingID RawDataSettings[] = { Set_Control0_RawData, Set_Control1_RawData, Set_Control2_RawData, Set_Control3_RawData };
     InputSettingID RangeSettings[] = { Set_Control0_Range, Set_Control1_Range, Set_Control2_Range, Set_Control3_Range };
     InputSettingID DeadZoneSettings[] = { Set_Control0_Deadzone, Set_Control1_Deadzone, Set_Control2_Deadzone,Set_Control3_Deadzone };
     InputSettingID RealN64RangeSettings[] = { Set_Control0_RealN64Range,  Set_Control1_RealN64Range, Set_Control2_RealN64Range, Set_Control3_RealN64Range };
@@ -145,7 +151,7 @@ void CInputSettings::LoadController(uint32_t ControlIndex, CONTROL & ControllerI
 
     ControllerInfo.Present = ControlIndex < (sizeof(PresentSettings) / sizeof(PresentSettings[0])) ? GetSetting((short)PresentSettings[ControlIndex]) != 0 : 0;
     ControllerInfo.Plugin = ControlIndex < (sizeof(PluginSettings) / sizeof(PluginSettings[0])) ? GetSetting((short)PluginSettings[ControlIndex]) : Default_Plugin;
-    ControllerInfo.RawData = true;
+    ControllerInfo.RawData = ControlIndex < (sizeof(RawDataSettings) / sizeof(RawDataSettings[0])) ? GetSetting((short)RawDataSettings[ControlIndex]) : Default_RawData;
     Controller.Range = (uint8_t)(ControlIndex < (sizeof(RangeSettings) / sizeof(RangeSettings[0])) ? GetSetting((short)RangeSettings[ControlIndex]) : Default_Range);
     if (Controller.Range == 0) { Controller.Range = 1; }
     if (Controller.Range > 100) { Controller.Range = 100; }
@@ -243,6 +249,7 @@ void CInputSettings::SaveController(uint32_t ControlIndex, const CONTROL & Contr
 
     InputSettingID PresentSettings[] = { Set_Control0_Present, Set_Control1_Present, Set_Control2_Present, Set_Control3_Present };
     InputSettingID PluginSettings[] = { Set_Control0_Plugin, Set_Control1_Plugin, Set_Control2_Plugin, Set_Control3_Plugin };
+    InputSettingID RawDataSettings[] = { Set_Control0_RawData, Set_Control1_RawData, Set_Control2_RawData, Set_Control3_RawData };
     InputSettingID RangeSettings[] = { Set_Control0_Range, Set_Control1_Range, Set_Control2_Range, Set_Control3_Range };
     InputSettingID DeadZoneSettings[] = { Set_Control0_Deadzone, Set_Control1_Deadzone, Set_Control2_Deadzone,Set_Control3_Deadzone };
     InputSettingID RealN64RangeSettings[] = { Set_Control0_RealN64Range,  Set_Control1_RealN64Range, Set_Control2_RealN64Range, Set_Control3_RealN64Range };
@@ -264,6 +271,10 @@ void CInputSettings::SaveController(uint32_t ControlIndex, const CONTROL & Contr
     if (ControlIndex < (sizeof(PluginSettings) / sizeof(PluginSettings[0])))
     {
         SetSetting((short)PluginSettings[ControlIndex], ControllerInfo.Plugin);
+    }
+    if (ControlIndex < (sizeof(RawDataSettings) / sizeof(RawDataSettings[0])))
+    {
+        SetSetting((short)RawDataSettings[ControlIndex], ControllerInfo.RawData);
     }
 
     if (ControlIndex < (sizeof(RangeSettings) / sizeof(RangeSettings[0])))
@@ -385,6 +396,7 @@ void CInputSettings::ResetController(uint32_t ControlIndex, CONTROL & Controller
     Controller.DeadZone = Default_DeadZone;
     ControllerInfo.Present = ControlIndex == 0 ? 1 : 0;
     ControllerInfo.Plugin = Default_Plugin;
+    ControllerInfo.RawData = Default_RawData;
 }
 
 BUTTON CInputSettings::StrToButton(const char * Buffer)
@@ -419,6 +431,7 @@ void CInputSettings::RegisterSettings(void)
     SetModuleName("Input");
     RegisterSetting(Set_Control0_Present, Data_DWORD_General, "Present", "Controller 1", 1, nullptr);
     RegisterSetting(Set_Control0_Plugin, Data_DWORD_General, "Plugin", "Controller 1", Default_Plugin, nullptr);
+    RegisterSetting(Set_Control0_RawData, Data_DWORD_General, "RawData", "Controller 1", (int) Default_RawData, nullptr);
     RegisterSetting(Set_Control0_Range, Data_DWORD_General, "Range", "Controller 1", Default_Range, nullptr);
     RegisterSetting(Set_Control0_Deadzone, Data_DWORD_General, "Deadzone", "Controller 1", Default_DeadZone, nullptr);
     RegisterSetting(Set_Control0_RealN64Range, Data_DWORD_General, "RealN64Range", "Controller 1", Default_RealN64Range, nullptr);
@@ -444,6 +457,7 @@ void CInputSettings::RegisterSettings(void)
 
     RegisterSetting(Set_Control1_Present, Data_DWORD_General, "Present", "Controller 2", 0, nullptr);
     RegisterSetting(Set_Control1_Plugin, Data_DWORD_General, "Plugin", "Controller 2", Default_Plugin, nullptr);
+    RegisterSetting(Set_Control1_RawData, Data_DWORD_General, "RawData", "Controller 2", (int) Default_RawData, nullptr);
     RegisterSetting(Set_Control1_Range, Data_DWORD_General, "Range", "Controller 2", Default_Range, nullptr);
     RegisterSetting(Set_Control1_Deadzone, Data_DWORD_General, "Deadzone", "Controller 2", Default_DeadZone, nullptr);
     RegisterSetting(Set_Control1_RealN64Range, Data_DWORD_General, "RealN64Range", "Controller 2", Default_RealN64Range, nullptr);
@@ -469,6 +483,7 @@ void CInputSettings::RegisterSettings(void)
 
     RegisterSetting(Set_Control2_Present, Data_DWORD_General, "Present", "Controller 3", 0, nullptr);
     RegisterSetting(Set_Control2_Plugin, Data_DWORD_General, "Plugin", "Controller 3", Default_Plugin, nullptr);
+    RegisterSetting(Set_Control2_RawData, Data_DWORD_General, "RawData", "Controller 2", (int) Default_RawData, nullptr);
     RegisterSetting(Set_Control2_Range, Data_DWORD_General, "Range", "Controller 3", Default_Range, nullptr);
     RegisterSetting(Set_Control2_Deadzone, Data_DWORD_General, "Deadzone", "Controller 3", Default_DeadZone, nullptr);
     RegisterSetting(Set_Control2_RealN64Range, Data_DWORD_General, "RealN64Range", "Controller 3", Default_RealN64Range, nullptr);
@@ -494,6 +509,7 @@ void CInputSettings::RegisterSettings(void)
 
     RegisterSetting(Set_Control3_Present, Data_DWORD_General, "Present", "Controller 4", 0, nullptr);
     RegisterSetting(Set_Control3_Plugin, Data_DWORD_General, "Plugin", "Controller 4", Default_Plugin, nullptr);
+    RegisterSetting(Set_Control3_RawData, Data_DWORD_General, "RawData", "Controller 4", (int) Default_RawData, nullptr);
     RegisterSetting(Set_Control3_Range, Data_DWORD_General, "Range", "Controller 4", Default_Range, nullptr);
     RegisterSetting(Set_Control3_Deadzone, Data_DWORD_General, "Deadzone", "Controller 4", Default_DeadZone, nullptr);
     RegisterSetting(Set_Control3_RealN64Range, Data_DWORD_General, "RealN64Range", "Controller 4", Default_RealN64Range, nullptr);

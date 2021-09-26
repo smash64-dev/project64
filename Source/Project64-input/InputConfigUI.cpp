@@ -169,8 +169,12 @@ LRESULT CControllerSettings::OnApply()
     Controller = m_Controller;
     Controller.Range = (uint8_t)m_Range.GetPos();
     Controller.DeadZone = (uint8_t)m_DeadZone.GetPos();
+
     CONTROL & ControlInfo = g_InputPlugin->ControlInfo(m_ControllerNumber);
     ControlInfo.Present = (m_PluggedIn.GetCheck() == BST_CHECKED) ? 1 : 0;
+    ControlInfo.Plugin = m_ControlInfo.Plugin;
+    ControlInfo.RawData = m_ControlInfo.RawData;
+
     return g_InputPlugin->SaveController(m_ControllerNumber) ? PSNRET_NOERROR : PSNRET_INVALID_NOCHANGEPAGE;
 }
 

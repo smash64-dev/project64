@@ -177,8 +177,7 @@ EXPORT void CALL InitiateControllers(HWND hMainWindow, CONTROL Controls[4])
 
         for (int i = 0; i < 4; i++) {
             Controls[i].Present = ControlInfo.Controls[i].Present;
-            //Controls[i].RawData = ControlInfo.Controls[i].RawData;
-            Controls[i].RawData = true;
+            Controls[i].RawData = ControlInfo.Controls[i].RawData;
             Controls[i].Plugin = ControlInfo.Controls[i].Plugin;
         }
     }

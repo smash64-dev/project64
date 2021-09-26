@@ -4,6 +4,7 @@ enum InputSettingID
 {
     Set_Control0_Present,
     Set_Control0_Plugin,
+    Set_Control0_RawData,
     Set_Control0_Range,
     Set_Control0_Deadzone,
     Set_Control0_RealN64Range,
@@ -29,6 +30,7 @@ enum InputSettingID
 
     Set_Control1_Present,
     Set_Control1_Plugin,
+    Set_Control1_RawData,
     Set_Control1_Range,
     Set_Control1_Deadzone,
     Set_Control1_RealN64Range,
@@ -54,6 +56,7 @@ enum InputSettingID
 
     Set_Control2_Present,
     Set_Control2_Plugin,
+    Set_Control2_RawData,
     Set_Control2_Range,
     Set_Control2_Deadzone,
     Set_Control2_RealN64Range,
@@ -79,6 +82,7 @@ enum InputSettingID
 
     Set_Control3_Present,
     Set_Control3_Plugin,
+    Set_Control3_RawData,
     Set_Control3_Range,
     Set_Control3_Deadzone,
     Set_Control3_RealN64Range,

@@ -27,6 +27,7 @@ public:
         CenterWindow(GetParent());
         SetWindowText(stdstr_f("Options - Player %d", m_ControlIndex + 1).ToUTF16().c_str());
         CButton(GetDlgItem(IDC_REAL_N64_RANGE)).SetCheck(m_Controller.RealN64Range ? BST_CHECKED : BST_UNCHECKED);
+        CButton(GetDlgItem(IDC_RAW_DATA)).SetCheck(m_ControlInfo.RawData ? BST_CHECKED : BST_UNCHECKED);
         CButton(GetDlgItem(IDC_REMOVE_DUPLICATE)).SetCheck(m_Controller.RemoveDuplicate ? BST_CHECKED : BST_UNCHECKED);
 
         CComboBox ControllerPak(GetDlgItem(IDC_PAKTYPE));
@@ -58,6 +59,12 @@ public:
         if (RealN64Range != m_Controller.RealN64Range)
         {
             m_Controller.RealN64Range = RealN64Range;
+            bChanged = true;
+        }
+        bool RawData = CButton(GetDlgItem(IDC_RAW_DATA)).GetCheck() == BST_CHECKED;
+        if (RawData != m_ControlInfo.RawData)
+        {
+            m_ControlInfo.RawData = RawData;
             bChanged = true;
         }
         bool RemoveDuplicate = CButton(GetDlgItem(IDC_REMOVE_DUPLICATE)).GetCheck() == BST_CHECKED;
