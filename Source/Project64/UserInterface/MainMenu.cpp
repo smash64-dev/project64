@@ -870,6 +870,8 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
         }
     }
     FileMenu.push_back(MENU_ITEM(SPLITER));
+    FileMenu.push_back(MENU_ITEM(ID_FILE_KAILLERA, MENU_KAILLERA, m_ShortCuts.ShortCutString(ID_FILE_KAILLERA, RunningState)));
+    FileMenu.push_back(MENU_ITEM(SPLITER));
     FileMenu.push_back(MENU_ITEM(ID_FILE_EXIT, MENU_EXIT, m_ShortCuts.ShortCutString(ID_FILE_EXIT, RunningState)));
 
     // Current save

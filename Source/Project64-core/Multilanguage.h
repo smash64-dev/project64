@@ -52,6 +52,7 @@ enum LanguageStringID
     MENU_RECENT_DIR = 108,
     MENU_EXIT = 109,
     MENU_OPEN_COMBO = 110,
+    MENU_KAILLERA = 111,
 
     // System menu
     MENU_SYSTEM = 120,
