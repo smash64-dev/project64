@@ -8,6 +8,8 @@
 #include <Project64-core/3rdParty/7zip.h>
 #endif
 
+#include "Project64/Kaillera/CKaillera.h"
+
 static const char* ROM_extensions[] =
 {
 #ifdef _WIN32
@@ -710,14 +712,17 @@ void CRomList::LoadRomList(void)
     // Read every entry
     m_RomInfo.clear();
     RomListReset();
+    ck->clearGameList();
     for (int32_t count = 0; count < Entries; count++)
     {
         ROM_INFO RomInfo;
         file.Read(&RomInfo, RomInfoSize);
         int32_t ListPos = m_RomInfo.size();
         m_RomInfo.push_back(RomInfo);
+        ck->addGame(RomInfo.GoodName, RomInfo.szFullFileName);
         RomAddedToList(ListPos);
     }
+    ck->terminateGameList();
     RomListLoaded();
     WriteTrace(TraceRomList, TraceVerbose, "Done");
 }
