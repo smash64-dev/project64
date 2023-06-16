@@ -384,7 +384,7 @@ int CKaillera::LoadKailleraFuncs()
 	}
 	else
 	{
-		MessageBox(NULL, L"Kaillearclient.dll not found. Please place it in the main folder and run Project64k again!", L"OOPS", NULL);
+		MessageBox(NULL, L"kailleraclient.dll not found. Please place it in the main folder and run Project64k again!", L"OOPS", NULL);
 		PostQuitMessage(0);
 	}
 
