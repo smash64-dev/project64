@@ -10,7 +10,7 @@ int(__stdcall* kailleraModifyPlayValues)  (void *values, int size);
 void(__stdcall* kailleraChatSend)  (char *text);
 void(__stdcall* kailleraEndGame) ();
 
-extern CKaillera* ck;
+CKaillera* ck;
 
 void ShowError(LPCWSTR str)
 {
