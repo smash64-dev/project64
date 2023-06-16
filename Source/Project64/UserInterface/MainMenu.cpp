@@ -10,8 +10,6 @@
 
 #include "Project64/Kaillera/CKaillera.h"
 
-CKaillera* ck;
-
 CMainMenu::CMainMenu(CMainGui * hMainWindow) :
     CBaseMenu(),
     m_ResetAccelerators(true),

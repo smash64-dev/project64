@@ -86,3 +86,5 @@ private:
 	std::vector<char*> codes;
 	int playValuesLength;
 };
+
+extern CKaillera* ck;
