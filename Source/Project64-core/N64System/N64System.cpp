@@ -21,6 +21,8 @@
 #include <utime.h>
 #endif
 
+#include "Project64/Kaillera/CKaillera.h"
+
 #pragma warning(disable:4355) // Disable 'this' : used in base member initializer list
 
 CN64System::CN64System(CPlugins * Plugins, uint32_t randomizer_seed, bool SavesReadOnly, bool SyncSystem) :
@@ -2370,10 +2372,32 @@ void CN64System::RefreshScreen()
         BUTTONS Keys;
         memset(&Keys, 0, sizeof(Keys));
 
-        for (int Control = 0; Control < 4; Control++)
+        if (ck->isPlayingKailleraGame)
         {
-            g_Plugins->Control()->GetKeys(Control, &Keys);
-            m_Buttons[Control] = Keys.Value;
+            g_Plugins->Control()->GetKeys(0, &Keys); // get local input
+            ck->modifyPlayValues(Keys.Value); // send it to everyone, and update every player's input
+
+            // apparently if you don't have these calls, the emulator freaks out and ignores all input?
+            g_Plugins->Control()->GetKeys(1, &Keys);
+            g_Plugins->Control()->GetKeys(2, &Keys);
+            g_Plugins->Control()->GetKeys(3, &Keys);
+
+            for (int Control = 0; Control < ck->numberOfPlayers; Control++)
+            {
+                m_Buttons[Control] = ck->getValues(Control); // get every player's input back
+            }
+            for (int Control = ck->numberOfPlayers; Control < 4; Control++)
+            {
+                m_Buttons[Control] = ck->getValues(Control); // get every player's input back
+            }
+        }
+        else
+        {
+            for (int Control = 0; Control < 4; Control++)
+            {
+                g_Plugins->Control()->GetKeys(Control, &Keys);
+                m_Buttons[Control] = Keys.Value;
+            }
         }
     }
 

@@ -7,6 +7,8 @@
 #include <Project64-core/N64System/N64Disk.h>
 #include "DiscordRPC.h"
 
+#include "Project64/Kaillera/CKaillera.h"
+
 void EnterLogOptions(HWND hwndOwner);
 
 #pragma comment(lib, "Comctl32.lib")
@@ -906,6 +908,12 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
             _this->MakeWindowOnTop(false);
             _this->SetStatusText(0, L"");
             _this->SetStatusText(1, L"");
+
+            if (ck->isPlayingKailleraGame)
+            {
+                ck->endGame();
+                ck->isPlayingKailleraGame = false;
+            }
         }
         break;
     case WM_COMMAND:
@@ -1094,6 +1102,11 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
                 WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - 2");
                 _this->SaveWindowLoc();
             }
+        }
+        if (ck->isPlayingKailleraGame)
+        {
+            ck->endGame();
+            ck->isPlayingKailleraGame = false;
         }
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - 3");
         RemoveProp(hWnd, L"Class");
