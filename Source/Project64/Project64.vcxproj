@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -51,6 +51,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Kaillera\CKaillera.cpp" />
     <ClCompile Include="UserInterface\About.cpp" />
     <ClCompile Include="UserInterface\Debugger\CPULog.cpp" />
     <ClCompile Include="UserInterface\Debugger\Debugger-CPULogView.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="UserInterface\WTLControls\wtl-BitmapPicture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Kaillera\CKaillera.h" />
     <ClInclude Include="UserInterface\About.h" />
     <ClInclude Include="UserInterface\Debugger\CPULog.h" />
     <ClInclude Include="UserInterface\Debugger\Debugger-CPULogView.h" />
