@@ -64,6 +64,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Kaillera\CKaillera.cpp" />
     <ClCompile Include="UserInterface\About.cpp" />
     <ClCompile Include="UserInterface\Debugger\CPULog.cpp" />
     <ClCompile Include="UserInterface\Debugger\Debugger-CPULogView.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="UserInterface\WTLControls\wtl-BitmapPicture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Kaillera\CKaillera.h" />
     <ClInclude Include="UserInterface\About.h" />
     <ClInclude Include="UserInterface\Debugger\CPULog.h" />
     <ClInclude Include="UserInterface\Debugger\Debugger-CPULogView.h" />

@@ -8,6 +8,10 @@
 #include <windows.h>
 #include <commdlg.h>
 
+#include "Project64/Kaillera/CKaillera.h"
+
+CKaillera* ck;
+
 CMainMenu::CMainMenu(CMainGui * hMainWindow) :
     CBaseMenu(),
     m_ResetAccelerators(true),
@@ -65,6 +69,8 @@ CMainMenu::CMainMenu(CMainGui * hMainWindow) :
     }
 
     g_Settings->RegisterChangeCB((SettingID)Info_ShortCutsChanged, this, (CSettings::SettingChangedFunc)stShortCutsChanged);
+
+    ck = new CKaillera();
 }
 
 CMainMenu::~CMainMenu()
@@ -78,6 +84,8 @@ CMainMenu::~CMainMenu()
     {
         g_Settings->UnregisterChangeCB(*iter, this, (CSettings::SettingChangedFunc)SettingsChanged);
     }
+
+    delete ck;
 }
 
 void CMainMenu::SettingsChanged(CMainMenu * _this)
@@ -332,7 +340,11 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ROMDIRECTORY 3");
         break;
     case ID_FILE_REFRESHROMLIST: m_Gui->RefreshRomList(); break;
-    case ID_FILE_EXIT:           DestroyWindow((HWND)hWnd); break;
+    case ID_FILE_KAILLERA:
+        ck->setInfos();
+        ck->selectServerDialog(hWnd);
+        break;
+    case ID_FILE_EXIT:           DestroyWindow((HWND)hWnd); PostQuitMessage(0);  break;
     case ID_SYSTEM_RESET_SOFT:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESET_SOFT");
         g_BaseSystem->ExternalEvent(SysEvent_ResetCPU_Soft);
