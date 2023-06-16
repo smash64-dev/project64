@@ -4,6 +4,8 @@
 #include <Project64-core/N64System/Mips/Register.h>
 #include "ControllerPlugin.h"
 
+#include "Project64/Kaillera/CKaillera.h"
+
 CControl_Plugin::CControl_Plugin(void) :
     WM_KeyDown(nullptr),
     WM_KeyUp(nullptr),
@@ -112,6 +114,15 @@ bool CControl_Plugin::Initiate(CN64System * System, RenderWindow * Window)
             m_Initialized = true;
         }
     }
+
+    if (ck->isPlayingKailleraGame) // force all 4 controllers to be plugged in
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            m_PluginControllers[i].Present = TRUE;
+        }
+    }
+
     return m_Initialized;
 }
 
