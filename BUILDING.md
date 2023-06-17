@@ -20,6 +20,10 @@ This can be done in the visual studio welcome screen. The git URL is:
 https://github.com/smash64-dev/project64.git
 ```
 
+## Kaillera steps
+
+Download [Project64KSE](https://smash64.online/). Copy and rename the `Net/plugin.dll` file in KSE into `Source/Project64/kailleraclient.dll` of this project.
+
 ## Build from source
 
 Open the `Project64.sln` file in Visual Studio. You can now build the solution from the Build menu.
