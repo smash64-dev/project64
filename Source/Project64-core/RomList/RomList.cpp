@@ -114,6 +114,7 @@ void CRomList::RefreshRomListThread(void)
     // Clear all current items
     RomListReset();
     m_RomInfo.clear();
+    ck->clearGameList();
 
     strlist FileNames;
     FillRomList(FileNames, "");
@@ -132,6 +133,7 @@ void CRomList::AddRomToList(const char * RomLocation)
     {
         int32_t ListPos = m_RomInfo.size();
         m_RomInfo.push_back(RomInfo);
+        ck->addGame(RomInfo.GoodName, RomInfo.szFullFileName);
         RomAddedToList(ListPos);
     }
     else
@@ -307,6 +309,7 @@ void CRomList::FillRomList(strlist & FileList, const char * Directory)
                         WriteTrace(TraceUserInterface, TraceDebug, "17");
                         int32_t ListPos = m_RomInfo.size();
                         m_RomInfo.push_back(RomInfo);
+                        ck->addGame(RomInfo.GoodName, RomInfo.szFullFileName);
                         RomAddedToList(ListPos);
                     }
                 }
