@@ -1086,6 +1086,15 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
             }
         }
         break;
+    case WM_CLOSE:
+        if (ck->isPlayingKailleraGame)
+        {
+            ck->endGame();
+            ck->isPlayingKailleraGame = false;
+            g_BaseSystem->CloseSystem();
+            break;
+        }
+        // otherwise PURPOSELY fall through to the WM_DESTROY case
     case WM_DESTROY:
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - start");
         {
