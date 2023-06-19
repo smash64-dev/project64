@@ -1114,9 +1114,14 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
             ck->endGame();
             ck->isPlayingKailleraGame = false;
             g_BaseSystem->CloseSystem();
-            break;
         }
-        // otherwise PURPOSELY fall through to the WM_DESTROY case
+        else
+        {
+            PostQuitMessage(0);
+            //TODO: fix to allow closing the whole program
+            //Currently only works if kaillera is closed
+        }
+        break;
     case WM_DESTROY:
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - start");
         {
