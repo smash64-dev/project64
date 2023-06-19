@@ -1137,11 +1137,19 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
                 _this->SaveWindowLoc();
             }
         }
-        if (ck && ck->isPlayingKailleraGame)
+
+        if (ck)
         {
-            ck->endGame();
-            ck->isPlayingKailleraGame = false;
+            if (ck->isPlayingKailleraGame)
+            {
+                ck->endGame();
+                ck->isPlayingKailleraGame = false;
+            }
+
+            delete ck;
+            ck = NULL;
         }
+
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - 3");
         RemoveProp(hWnd, L"Class");
         WriteTrace(TraceUserInterface, TraceDebug, "WM_DESTROY - 4");
