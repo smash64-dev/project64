@@ -1117,9 +1117,7 @@ LRESULT CALLBACK CMainGui::MainGui_Proc(HWND hWnd, DWORD uMsg, DWORD wParam, DWO
         }
         else
         {
-            PostQuitMessage(0);
-            //TODO: fix to allow closing the whole program
-            //Currently only works if kaillera is closed
+            DestroyWindow(hWnd);
         }
         break;
     case WM_DESTROY:
