@@ -128,10 +128,12 @@ enum SettingID
     Game_EditPlugin_Audio,
     Game_EditPlugin_Contr,
     Game_EditPlugin_RSP,
+    Game_EditPlugin_Netplay,
     Game_Plugin_Gfx,
     Game_Plugin_Audio,
     Game_Plugin_Controller,
     Game_Plugin_RSP,
+    Game_Plugin_Netplay,
     Game_SaveChip,
     Game_CpuType,
     Game_LastSaveSlot,
@@ -288,6 +290,7 @@ enum SettingID
     Debugger_TraceUserInterface,
     Debugger_TraceRomList,
     Debugger_TraceExceptionHandler,
+    Debugger_TraceNetplayPlugin,
 
     // Plugins
     Plugin_RSP_Current,
@@ -299,6 +302,8 @@ enum SettingID
     Plugin_AUDIO_CurVer,
     Plugin_CONT_Current,
     Plugin_CONT_CurVer,
+    Plugin_NET_Current,
+    Plugin_NET_CurVer,
     Plugin_UseHleGfx,
     Plugin_UseHleAudio,
     Plugin_EnableAudio,
@@ -338,4 +343,6 @@ enum SettingID
     FirstAudioSettings, LastAudioSettings = FirstAudioSettings + MaxPluginSetting,
     FirstCtrlDefaultSet, LastCtrlDefaultSet = FirstCtrlDefaultSet + MaxPluginSetting,
     FirstCtrlSettings, LastCtrlSettings = FirstCtrlSettings + MaxPluginSetting,
+    FirstNetDefaultSet, LastNetDefaultSet = FirstNetDefaultSet + MaxPluginSetting,
+    FirstNetSettings, LastNetSettings = FirstNetSettings + MaxPluginSetting,
 };

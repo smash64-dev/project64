@@ -194,10 +194,12 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
     AddHandler(Game_EditPlugin_Audio, new CSettingTypeGame("Plugin-Audio", Default_None));
     AddHandler(Game_EditPlugin_Contr, new CSettingTypeGame("Plugin-Controller", Default_None));
     AddHandler(Game_EditPlugin_RSP, new CSettingTypeGame("Plugin-RSP", Default_None));
+    AddHandler(Game_EditPlugin_Netplay, new CSettingTypeGame("Plugin-Netplay", Default_None));
     AddHandler(Game_Plugin_Gfx, new CSettingTypeGame("Plugin-Gfx", Plugin_GFX_Current));
     AddHandler(Game_Plugin_Audio, new CSettingTypeGame("Plugin-Audio", Plugin_AUDIO_Current));
     AddHandler(Game_Plugin_Controller, new CSettingTypeGame("Plugin-Controller", Plugin_CONT_Current));
     AddHandler(Game_Plugin_RSP, new CSettingTypeGame("Plugin-RSP", Plugin_RSP_Current));
+    AddHandler(Game_Plugin_Netplay, new CSettingTypeGame("Plugin-Netplay", Plugin_NET_Current));
     AddHandler(Game_SaveChip, new CSettingTypeGame("SaveChip", Rdb_SaveChip));
     AddHandler(Game_CpuType, new CSettingTypeGame("CpuType", Rdb_CpuType));
     AddHandler(Game_LastSaveSlot, new CSettingTypeGame("Last Used Save Slot", (uint32_t)0));
@@ -370,6 +372,7 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
     AddHandler(Debugger_TraceUserInterface, new CSettingTypeApplication("Logging", "User Interface", (uint32_t)g_ModuleLogLevel[TraceUserInterface]));
     AddHandler(Debugger_TraceRomList, new CSettingTypeApplication("Logging", "Rom List", (uint32_t)g_ModuleLogLevel[TraceRomList]));
     AddHandler(Debugger_TraceExceptionHandler, new CSettingTypeApplication("Logging", "Exception Handler", (uint32_t)g_ModuleLogLevel[TraceExceptionHandler]));
+    AddHandler(Debugger_TraceNetplayPlugin, new CSettingTypeApplication("Logging", "Netplay Plugin", (uint32_t)g_ModuleLogLevel[TraceNetplayPlugin]));
 
     // Plugin
 #ifdef _WIN32
@@ -379,22 +382,26 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
 	AddHandler(Plugin_GFX_Current, new CSettingTypeApplication("Plugin", "Graphics Dll", Plugin_GFX_Default));
 	AddHandler(Plugin_AUDIO_Current, new CSettingTypeApplication("Plugin", "Audio Dll", "Audio\\Project64-Audio_d.dll"));
     AddHandler(Plugin_CONT_Current, new CSettingTypeApplication("Plugin", "Controller Dll", "Input\\Project64-Input_d.dll"));
+    AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", ""));
 #else
     AddHandler(Plugin_GFX_Default, new CSettingTypeApplication("Plugin", "Graphics Dll Default", "GFX\\Project64-Video.dll"));
     AddHandler(Plugin_GFX_Current, new CSettingTypeApplication("Plugin", "Graphics Dll", Plugin_GFX_Default));
     AddHandler(Plugin_AUDIO_Current, new CSettingTypeApplication("Plugin", "Audio Dll", "Audio\\Project64-Audio.dll"));
     AddHandler(Plugin_CONT_Current, new CSettingTypeApplication("Plugin", "Controller Dll", "Input\\Project64-Input.dll"));
+    AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", ""));
 #endif
 #else
     AddHandler(Plugin_RSP_Current, new CSettingTypeApplication("Plugin", "RSP Dll", "libProject64-rsp-hle.so"));
     AddHandler(Plugin_GFX_Current, new CSettingTypeApplication("Plugin", "Graphics Dll", "libProject64-gfx.so"));
     AddHandler(Plugin_AUDIO_Current, new CSettingTypeApplication("Plugin", "Audio Dll", "libProject64-audio-android.so"));
     AddHandler(Plugin_CONT_Current, new CSettingTypeApplication("Plugin", "Controller Dll", "libProject64-input-android.so"));
+    AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", ""));
 #endif
     AddHandler(Plugin_RSP_CurVer, new CSettingTypeApplication("Plugin", "RSP Dll Ver", ""));
     AddHandler(Plugin_GFX_CurVer, new CSettingTypeApplication("Plugin", "Graphics Dll Ver", ""));
     AddHandler(Plugin_AUDIO_CurVer, new CSettingTypeApplication("Plugin", "Audio Dll Ver", ""));
     AddHandler(Plugin_CONT_CurVer, new CSettingTypeApplication("Plugin", "Controller Dll Ver", ""));
+    AddHandler(Plugin_NET_CurVer, new CSettingTypeApplication("Plugin", "Netplay Dll Ver", ""));
 
 	AddHandler(Plugin_UseHleGfx, new CSettingTypeApplication("RSP", "HLE GFX Plugin", Default_UseHleGfx));
     AddHandler(Plugin_UseHleAudio, new CSettingTypeApplication("RSP", "HLE Audio Plugin", false));
