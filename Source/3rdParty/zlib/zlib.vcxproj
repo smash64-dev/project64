@@ -51,6 +51,10 @@
       <DisableSpecificWarnings>4005;4006;4100;4127;4131;4189;4244;4701;4703;4996</DisableSpecificWarnings>
       <!-- Fix for later VC versions on XP: 45KB + 436 -->
       <PreprocessorDefinitions>Z_BUFSIZE=46516;$(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Speed</FavorSizeOrSpeed>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Speed</FavorSizeOrSpeed>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

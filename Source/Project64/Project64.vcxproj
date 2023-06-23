@@ -62,6 +62,18 @@
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)Config\Project64.cfg" (copy  "$(SolutionDir)Config\Project64.cfg.development" "$(SolutionDir)Config\Project64.cfg")</Command>
     </PreBuildEvent>
+    <ClCompile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+    </ClCompile>
+    <ClCompile>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+    </ClCompile>
+    <ClCompile>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Kaillera\CKaillera.cpp" />
