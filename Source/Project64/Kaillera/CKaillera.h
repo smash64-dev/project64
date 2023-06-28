@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Project64-core/N64System/Enhancement/Enhancement.h>
+#include <Common/path.h>
 
 #define KAILLERA_CLIENT_API_VERSION "0.8"
 
@@ -79,10 +80,13 @@ private:
 
 	kailleraInfos   kInfos;
 	HMODULE KailleraHandle;
+	std::string KailleraPlugin;
 	int LoadKailleraFuncs();
+	int UnloadKailleraFuncs();
+	std::string NetplayPluginPath();
 	void processResult(CKailleraPacket ckp[]);
 	char *pszKailleraNamedRoms;
-	char *sAppName = "Project 64k Core 3.0";
+	char *sAppName = "Project64-SE Core 3.0.1";
 	DWORD values[4]; // for a maximum of 4 players
 	std::vector<char*> codes;
 	int playValuesLength;

@@ -54,6 +54,8 @@ Thumbs.db
 /Plugin/Input/PJ64_NRage.dll
 /Plugin/Input/Project64-Input_d.dll
 /Plugin/Input/Project64-Input.dll
+/Plugin/Input/*raphnetraw**.dll
+/Plugin/Netplay/*.dll
 /Plugin/RSP/lib
 /Plugin/RSP/map
 /Plugin/RSP/pdb
@@ -82,6 +84,8 @@ Thumbs.db
 /Plugin64/Input/PJ64_NRage.dll
 /Plugin64/Input/Project64-Input_d.dll
 /Plugin64/Input/Project64-Input.dll
+/Plugin64/Input/*raphnetraw**.dll
+/Plugin64/Netplay/*.dll
 /Plugin64/RSP/lib
 /Plugin64/RSP/map
 /Plugin64/RSP/pdb
@@ -96,7 +100,3 @@ Thumbs.db
 /Source/Project64-input/Version.h
 /Source/Project64-video/Version.h
 /Source/RSP/Version.h
-/Plugin/Input/pj64raphnetraw.dll
-/Plugin/Input/pj64raphnetraw_net.dll
-/Plugin/pj64raphnetraw.dll
-/Plugin/pj64raphnetraw_net.dll

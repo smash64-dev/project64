@@ -129,6 +129,13 @@ void CKaillera::setInfos()
 
 HANDLE CKaillera::startDialogThread(HWND hWnd)
 {
+	if (_stricmp(KailleraPlugin.c_str(), NetplayPluginPath().c_str()) != 0)
+	{
+		UnloadKailleraFuncs();
+		LoadKailleraFuncs();
+		kailleraInit();
+	}
+
 	return CreateThread(0, 0, selectServerDialog, hWnd, 0, 0);
 }
 
@@ -334,9 +341,22 @@ void CKaillera::endGame()
 	kailleraEndGame();
 }
 
+int CKaillera::UnloadKailleraFuncs()
+{
+	if (KailleraHandle != nullptr)
+	{
+		WriteTrace(TraceNetplayPlugin, TraceDebug, "Before close");
+		FreeLibrary(KailleraHandle);
+		KailleraHandle = nullptr;
+		WriteTrace(TraceNetplayPlugin, TraceInfo, "After close");
+	}
+	return 1;
+}
+
 int CKaillera::LoadKailleraFuncs()
 {
-	KailleraHandle = LoadLibrary(L"kailleraclient.dll");
+	std::string currentPlugin = NetplayPluginPath();
+	KailleraHandle = LoadLibraryA(currentPlugin.c_str());
 
 	if (KailleraHandle) {
 		//ShowInfo("Kaillera Library found");
@@ -394,5 +414,17 @@ int CKaillera::LoadKailleraFuncs()
 		PostQuitMessage(0);
 	}
 
+	KailleraPlugin = currentPlugin;
 	return 1;
+}
+
+std::string CKaillera::NetplayPluginPath()
+{
+	stdstr PluginDir = g_Settings->LoadStringVal(Directory_Plugin);
+	stdstr FileName = g_Settings->LoadStringVal(Game_Plugin_Netplay);
+	CPath CurrentPlugin(PluginDir, FileName.c_str());
+
+	std::string FullyQualified;
+	CurrentPlugin.GetFullyQualified(FullyQualified);
+	return FullyQualified;
 }

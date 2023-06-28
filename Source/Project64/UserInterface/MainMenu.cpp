@@ -350,10 +350,6 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         WriteTrace(TraceUserInterface, TraceDebug, "ID_FILE_ROMDIRECTORY 3");
         break;
     case ID_FILE_REFRESHROMLIST: m_Gui->RefreshRomList(); break;
-    case ID_FILE_KAILLERA:
-        ck->setInfos();
-        ck->startDialogThread(hWnd);
-        break;
     case ID_FILE_EXIT:           DestroyWindow((HWND)hWnd); PostQuitMessage(0);  break;
     case ID_SYSTEM_RESET_SOFT:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_SYSTEM_RESET_SOFT");
@@ -529,6 +525,8 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         break;
     case ID_NETPLAY_OPEN:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_NETPLAY_OPEN");
+        ck->setInfos();
+        ck->startDialogThread(hWnd);
         break;
     case ID_NETPLAY_CONFIG_NET:
         WriteTrace(TraceUserInterface, TraceDebug, "ID_NETPLAY_CONFIG_NET");
@@ -1078,7 +1076,8 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
     NetplayMenu.push_back(Item);
 
     Item.Reset(ID_NETPLAY_CONFIG_NET, MENU_CONFG_NET, m_ShortCuts.ShortCutString(ID_NETPLAY_CONFIG_NET, RunningState));
-    Item.SetItemEnabled(NetplayEnabled);
+    // TODO: enable when hooked up
+    Item.SetItemEnabled(false);
     NetplayMenu.push_back(Item);
 
     // Profile menu
