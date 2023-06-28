@@ -21,6 +21,7 @@ CAdvancedOptionsPage::CAdvancedOptionsPage(HWND hParent, const RECT & rcDispay)
     SetDlgItemText(IDC_DISPLAY_FRAMERATE, wGS(OPTION_CHANGE_FR).c_str());
     SetDlgItemText(IDC_SHOW_STATUS_BAR, wGS(OPTION_SHOW_STATUS_BAR).c_str());
     SetDlgItemText(IDC_EXIT_FULLSCREEN_ON_LOSE_FOCUS, wGS(OPTION_EXIT_FULLSCREEN_ON_LOSE_FOCUS).c_str());
+    SetDlgItemText(IDC_CN64_TIME_CRITICAL, wGS(OPTION_CN64_TIME_CRITICAL).c_str());
 
     AddModCheckBox(GetDlgItem(IDC_START_ON_ROM_OPEN), Setting_AutoStart);
     AddModCheckBox(GetDlgItem(IDC_ZIP), Setting_AutoZipInstantSave);
@@ -33,6 +34,7 @@ CAdvancedOptionsPage::CAdvancedOptionsPage(HWND hParent, const RECT & rcDispay)
     AddModCheckBox(GetDlgItem(IDC_DISPLAY_FRAMERATE), UserInterface_DisplayFrameRate);
     AddModCheckBox(GetDlgItem(IDC_SHOW_STATUS_BAR), (SettingID)UserInterface_ShowStatusBar);
     AddModCheckBox(GetDlgItem(IDC_EXIT_FULLSCREEN_ON_LOSE_FOCUS), (SettingID)UserInterface_ExitFullscreenOnLoseFocus);
+    AddModCheckBox(GetDlgItem(IDC_CN64_TIME_CRITICAL), Setting_CN64TimeCritical);
 
     CModifiedComboBox * ComboBox;
     ComboBox = AddModComboBox(GetDlgItem(IDC_FRAME_DISPLAY_TYPE), UserInterface_FrameDisplayType);

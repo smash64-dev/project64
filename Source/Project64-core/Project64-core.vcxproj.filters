@@ -351,6 +351,9 @@
     <ClCompile Include="N64System\N64Rom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Plugins\NetplayPlugin.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -667,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="N64System\Enhancement\EnhancementList.h">
       <Filter>Header Files\N64 System\Enhancement</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugins\NetplayPlugin.h">
+      <Filter>Header Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

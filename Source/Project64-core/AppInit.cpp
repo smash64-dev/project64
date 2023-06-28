@@ -72,6 +72,7 @@ void SetTraceModuleNames(void)
     TraceSetModuleName(TraceUserInterface, "User Interface");
     TraceSetModuleName(TraceRomList, "Rom List");
     TraceSetModuleName(TraceExceptionHandler, "Exception Handler");
+    TraceSetModuleName(TraceNetplayPlugin, "Netplay Plugin");
 }
 
 void UpdateTraceLevel(void * /*NotUsed*/)
@@ -98,6 +99,7 @@ void UpdateTraceLevel(void * /*NotUsed*/)
     g_ModuleLogLevel[TraceUserInterface] = (uint8_t)g_Settings->LoadDword(Debugger_TraceUserInterface);
     g_ModuleLogLevel[TraceRomList] = (uint8_t)g_Settings->LoadDword(Debugger_TraceRomList);
     g_ModuleLogLevel[TraceExceptionHandler] = (uint8_t)g_Settings->LoadDword(Debugger_TraceExceptionHandler);
+    g_ModuleLogLevel[TraceNetplayPlugin] = (uint8_t)g_Settings->LoadDword(Debugger_TraceNetplayPlugin);
 }
 
 void SetupTrace(void)
@@ -126,6 +128,7 @@ void SetupTrace(void)
     g_Settings->RegisterChangeCB(Debugger_TraceUserInterface, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->RegisterChangeCB(Debugger_TraceRomList, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->RegisterChangeCB(Debugger_TraceExceptionHandler, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
+    g_Settings->RegisterChangeCB(Debugger_TraceNetplayPlugin, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->RegisterChangeCB(Debugger_AppLogFlush, g_LogFile, (CSettings::SettingChangedFunc)LogFlushChanged);
     UpdateTraceLevel(nullptr);
 
@@ -158,6 +161,7 @@ void CleanupTrace(void)
     g_Settings->UnregisterChangeCB(Debugger_TraceUserInterface, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->UnregisterChangeCB(Debugger_TraceRomList, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->UnregisterChangeCB(Debugger_TraceExceptionHandler, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
+    g_Settings->UnregisterChangeCB(Debugger_TraceNetplayPlugin, nullptr, (CSettings::SettingChangedFunc)UpdateTraceLevel);
     g_Settings->UnregisterChangeCB(Debugger_AppLogFlush, g_LogFile, (CSettings::SettingChangedFunc)LogFlushChanged);
 }
 

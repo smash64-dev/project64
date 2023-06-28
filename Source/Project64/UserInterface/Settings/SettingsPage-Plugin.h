@@ -31,6 +31,11 @@ public:
     bool             EnableReset(void);
     void             ResetPage(void);
 
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return CSettingsPageImpl<COptionPluginPage>::PageAccessible(AdvancedMode);
+    }
+
 private:
     void GfxPluginAbout(UINT /*Code*/, int /*id*/, HWND /*ctl*/) { ShowAboutButton(GFX_LIST); }
     void AudioPluginAbout(UINT /*Code*/, int /*id*/, HWND /*ctl*/) { ShowAboutButton(AUDIO_LIST); }

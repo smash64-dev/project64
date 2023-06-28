@@ -81,6 +81,8 @@
 #define IDD_Support_RequestCode         216
 #define IDD_Settings_GameDiskDrive      217
 #define IDD_Enhancement_Plugins         218
+#define IDD_Settings_Netplay            219
+#define IDD_Settings_GameNetplay        220
 #define IDC_MENU_ITEM_TEXT              1000
 #define IDC_CLOSE_BUTTON                1001
 #define IDC_LIST2                       1003
@@ -869,6 +871,15 @@
 #define IDC_RADIO_GLIDEN64              1728
 #define IDC_RADIO_JABO                  1729
 #define IDC_RADIO_PJ64_VIDEO            1729
+#define IDC_NET_NAME                    1730
+#define NET_LIST                        1731
+#define NET_ABOUT                       1732
+#define IDC_NET_ENABLE                  1734
+#define IDC_NETPLAY_SYNC_AUDIO          1735
+#define IDC_NETPLAY_FIXED_AUDIO         1736
+#define IDC_CN64_TIME_CRITICAL          1737
+#define IDC_NETPLAY_INCLUDE_UNOFFICIAL  1738
+#define VERSION_BUILD                   5667
 #define ID_POPUPMENU_PLAYGAMEWITHDISK   40008
 #define ID_POPUPMENU_ADDSYMBOL          40013
 #define ID_POPUPMENU_VIEWDISASM         40017
@@ -937,7 +948,7 @@
 #define ID_POPUP_ADDENHANCEMENT         40164
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        225

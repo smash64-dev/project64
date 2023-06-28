@@ -28,6 +28,11 @@ public:
 	bool             EnableReset   ( void );
 	void             ResetPage     ( void );
 
+	bool PageAccessible( bool AdvancedMode )
+	{
+		return CSettingsPageImpl<CGeneralOptionsPage>::PageAccessible(AdvancedMode);
+	}
+
 private:
 	void OnBasicMode ( UINT Code, int id, HWND ctl );
 	CSettingConfig * m_SettingsConfig;

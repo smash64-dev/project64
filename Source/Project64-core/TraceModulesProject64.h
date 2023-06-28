@@ -22,5 +22,6 @@ enum TraceModuleProject64
     TraceUserInterface,
     TraceRomList,
     TraceExceptionHandler,
+    TraceNetplayPlugin,
     MaxTraceModuleProject64,
 };

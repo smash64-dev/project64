@@ -17,6 +17,7 @@ class CAdvancedOptionsPage :
         COMMAND_ID_HANDLER_EX(IDC_DISPLAY_FRAMERATE, CheckBoxChanged)
         COMMAND_ID_HANDLER_EX(IDC_SHOW_STATUS_BAR, CheckBoxChanged)
         COMMAND_ID_HANDLER_EX(IDC_EXIT_FULLSCREEN_ON_LOSE_FOCUS, CheckBoxChanged)
+        COMMAND_ID_HANDLER_EX(IDC_CN64_TIME_CRITICAL, CheckBoxChanged)
         COMMAND_HANDLER_EX(IDC_FRAME_DISPLAY_TYPE,LBN_SELCHANGE,ComboBoxChanged)
     END_MSG_MAP()
 
@@ -31,6 +32,10 @@ public:
     void ApplySettings ( bool UpdateScreen );
     bool EnableReset ( void );
     void ResetPage ( void );
+    bool PageAccessible( bool AdvancedMode )
+    {
+        return AdvancedMode;
+    }
 
 private:
     void UpdatePageSettings(void);

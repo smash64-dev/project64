@@ -53,9 +53,11 @@ CMainMenu::CMainMenu(CMainGui * hMainWindow) :
     m_ChangeSettingList.push_back(Debugger_TraceTLB);
     m_ChangeSettingList.push_back(Debugger_TraceProtectedMEM);
     m_ChangeSettingList.push_back(Debugger_TraceUserInterface);
+    m_ChangeSettingList.push_back(Debugger_TraceNetplayPlugin);
     m_ChangeSettingList.push_back(Debugger_AppLogFlush);
     m_ChangeSettingList.push_back(Game_CurrentSaveState);
     m_ChangeSettingList.push_back(Setting_CurrentLanguage);
+    m_ChangeSettingList.push_back(Netplay_PluginEnabled);
 
     for (UISettingList::const_iterator iter = m_ChangeUISettingList.begin(); iter != m_ChangeUISettingList.end(); iter++)
     {
@@ -511,6 +513,26 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
         }
         break;
     case ID_OPTIONS_SETTINGS: OnSettings(hWnd);  break;
+    case ID_NETPLAY_ENABLE:
+        WriteTrace(TraceUserInterface, TraceDebug, "ID_NETPLAY_ENABLE");
+
+        // TODO: Needs to load and unload plugin
+        if (g_Settings->LoadBool(Netplay_PluginEnabled))
+        {
+            g_Settings->SaveBool(Netplay_PluginEnabled, false);
+            g_Notify->DisplayMessage(0, EMPTY_STRING);
+        }
+        else
+        {
+            g_Settings->SaveBool(Netplay_PluginEnabled, true);
+        }
+        break;
+    case ID_NETPLAY_OPEN:
+        WriteTrace(TraceUserInterface, TraceDebug, "ID_NETPLAY_OPEN");
+        break;
+    case ID_NETPLAY_CONFIG_NET:
+        WriteTrace(TraceUserInterface, TraceDebug, "ID_NETPLAY_CONFIG_NET");
+        break;
     case ID_PROFILE_PROFILE:
         g_Settings->SaveBool(Debugger_RecordExecutionTimes, !g_Settings->LoadBool(Debugger_RecordExecutionTimes));
         g_BaseSystem->ExternalEvent(SysEvent_ResetFunctionTimes);
@@ -566,6 +588,7 @@ bool CMainMenu::ProcessMessage(HWND hWnd, DWORD /*FromAccelerator*/, DWORD MenuI
     case ID_DEBUGGER_TRACE_TLB: SetTraceModuleSetttings(Debugger_TraceTLB); break;
     case ID_DEBUGGER_TRACE_PROTECTEDMEM: SetTraceModuleSetttings(Debugger_TraceProtectedMEM); break;
     case ID_DEBUGGER_TRACE_USERINTERFACE: SetTraceModuleSetttings(Debugger_TraceUserInterface); break;
+    case ID_DEBUGGER_TRACE_NETPLAYPLUGIN: SetTraceModuleSetttings(Debugger_TraceNetplayPlugin); break;
 
     case ID_DEBUGGER_APPLOG_FLUSH:
         g_Settings->SaveBool(Debugger_AppLogFlush, !g_Settings->LoadBool(Debugger_AppLogFlush));
@@ -774,6 +797,7 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
     bool RomLoaded = g_Settings->LoadStringVal(Game_GameName).length() > 0;
     bool RomList = UISettingsLoadBool(RomBrowser_Enabled) && !CPURunning;
     bool Enhancement = g_Settings->LoadBool(Setting_Enhancement);
+    bool NetplayEnabled = g_Settings->LoadBool(Netplay_PluginEnabled);
 
     CMenuShortCutKey::RUNNING_STATE RunningState = CMenuShortCutKey::RUNNING_STATE_NOT_RUNNING;
     if (g_Settings->LoadBool(GameRunning_CPU_Running))
@@ -1039,6 +1063,24 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
     }
     OptionMenu.push_back(MENU_ITEM(ID_OPTIONS_SETTINGS, MENU_SETTINGS, m_ShortCuts.ShortCutString(ID_OPTIONS_SETTINGS, RunningState)));
 
+    // Netplay menu
+    MenuItemList NetplayMenu;
+    MenuItemList NetplayEnablePlugin;
+    if (!inBasicMode)
+    {
+        Item.Reset(ID_NETPLAY_ENABLE, MENU_NETPLAY_ENABLE, m_ShortCuts.ShortCutString(ID_NETPLAY_ENABLE, RunningState));
+        if (g_Settings->LoadDword(Netplay_PluginEnabled)) { Item.SetItemTicked(true); }
+        NetplayMenu.push_back(Item);
+        NetplayMenu.push_back(MENU_ITEM(SPLITER));
+    }
+    Item.Reset(ID_NETPLAY_OPEN, MENU_NETPLAY_OPEN, m_ShortCuts.ShortCutString(ID_NETPLAY_OPEN, RunningState));
+    Item.SetItemEnabled(NetplayEnabled);
+    NetplayMenu.push_back(Item);
+
+    Item.Reset(ID_NETPLAY_CONFIG_NET, MENU_CONFG_NET, m_ShortCuts.ShortCutString(ID_NETPLAY_CONFIG_NET, RunningState));
+    Item.SetItemEnabled(NetplayEnabled);
+    NetplayMenu.push_back(Item);
+
     // Profile menu
     MenuItemList DebugProfileMenu;
     if (HaveDebugger())
@@ -1164,6 +1206,10 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
 
         Item.Reset(ID_DEBUGGER_TRACE_RSPPLUGIN, EMPTY_STRING, EMPTY_STDSTR, nullptr, L"RSP plugin");
         Item.SetItemTicked(g_Settings->LoadDword(Debugger_TraceRSPPlugin) == TraceVerbose);;
+        DebugAppLoggingMenu.push_back(Item);
+
+        Item.Reset(ID_DEBUGGER_TRACE_NETPLAYPLUGIN, EMPTY_STRING, EMPTY_STDSTR, nullptr, L"Netplay plugin");
+        Item.SetItemTicked(g_Settings->LoadDword(Debugger_TraceNetplayPlugin) == TraceVerbose);;
         DebugAppLoggingMenu.push_back(Item);
 
         Item.Reset(ID_DEBUGGER_TRACE_RSP, EMPTY_STRING, EMPTY_STDSTR, nullptr, L"RSP");
@@ -1323,8 +1369,18 @@ void CMainMenu::FillOutMenu(HMENU hMenu)
         MainTitleMenu.push_back(Item);
     }
     Item.Reset(SUB_MENU, MENU_OPTIONS, EMPTY_STDSTR, &OptionMenu);
-    if (RomLoading) { Item.SetItemEnabled(false); }
     MainTitleMenu.push_back(Item);
+    if (RomLoading) { Item.SetItemEnabled(false); }
+#ifdef NETPLAY
+    Item.Reset(SUB_MENU, MENU_NETPLAY, EMPTY_STDSTR, &NetplayMenu);
+    MainTitleMenu.push_back(Item);
+#else
+    if (!inBasicMode)
+    {
+        Item.Reset(SUB_MENU, MENU_NETPLAY, EMPTY_STDSTR, &NetplayMenu);
+        MainTitleMenu.push_back(Item);
+    }
+#endif
     if (!inBasicMode)
     {
         if (HaveDebugger())
