@@ -7,6 +7,8 @@ public:
     CNetplayPlugin(void);
     ~CNetplayPlugin();
 
+    bool Load(const char* FileName);
+
     bool Initiate(CN64System * System, RenderWindow * Window);
 
 private:

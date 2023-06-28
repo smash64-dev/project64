@@ -27,6 +27,11 @@ public:
 	bool EnableReset ( void );
 	void ResetPage ( void );
 
+	bool PageAccessible( bool AdvancedMode )
+	{
+		return CSettingsPageImpl<CDiskDrivePage>::PageAccessible(AdvancedMode);
+	}
+
 private:
 	void SelectIplDirJp(UINT Code, int id, HWND ctl);
     void SelectIplDirUs(UINT Code, int id, HWND ctl);

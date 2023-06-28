@@ -36,4 +36,9 @@ public:
     void             ApplySettings(bool UpdateScreen);
     bool             EnableReset(void);
     void             ResetPage(void);
+
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return CSettingsPageImpl<CGameGeneralPage>::PageAccessible(AdvancedMode);
+    }
 };

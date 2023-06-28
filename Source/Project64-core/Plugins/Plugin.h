@@ -87,6 +87,13 @@ enum PLUGIN_TYPE
     PLUGIN_TYPE_NETPLAY = 5,
 };
 
+enum NETPLAY_ADAPTER_TYPE
+{
+    KAILLERA_UNKNOWN = 0x1101,
+    KAILLERA_0_9 = 0x1102,
+    AQZ_UNKNOWN = 0x2101,
+};
+
 class CSettings;
 class CGfxPlugin; class CAudioPlugin; class CRSP_Plugin; class CControl_Plugin; class CNetplayPlugin;
 class CN64System;

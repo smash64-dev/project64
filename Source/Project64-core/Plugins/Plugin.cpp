@@ -155,7 +155,12 @@ void CPlugins::CreatePlugins(void)
     LoadPlugin(Game_Plugin_Audio, Plugin_AUDIO_CurVer, m_Audio, m_PluginDir.c_str(), m_AudioFile, TraceAudioPlugin, "Audio", m_SyncPlugins);
     LoadPlugin(Game_Plugin_RSP, Plugin_RSP_CurVer, m_RSP, m_PluginDir.c_str(), m_RSPFile, TraceRSPPlugin, "RSP", m_SyncPlugins);
     LoadPlugin(Game_Plugin_Controller, Plugin_CONT_CurVer, m_Control, m_PluginDir.c_str(), m_ControlFile, TraceControllerPlugin, "Control", m_SyncPlugins);
-    LoadPlugin(Game_Plugin_Netplay, Plugin_NET_CurVer, m_Netplay, m_PluginDir.c_str(), m_NetplayFile, TraceNetplayPlugin, "Netplay", m_SyncPlugins);
+
+    // TODO: enable when finished
+    if (false && g_Settings->LoadBool(Netplay_PluginEnabled))
+    {
+        LoadPlugin(Game_Plugin_Netplay, Plugin_NET_CurVer, m_Netplay, m_PluginDir.c_str(), m_NetplayFile, TraceNetplayPlugin, "Netplay", m_SyncPlugins);
+    }
 
     // Enable debugger
     if (m_RSP != nullptr && m_RSP->EnableDebugging)

@@ -105,11 +105,13 @@
     <ClCompile Include="UserInterface\Settings\SettingsPage-DiskDrive.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Game-DiskDrive.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Game-General.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Netplay.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Plugin.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Recompiler.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Status.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-GameBrowser.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-KeyboardShortcuts.cpp" />
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Netplay.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Options.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage-Plugin.cpp" />
     <ClCompile Include="UserInterface\Settings\SettingsPage.cpp" />
@@ -124,6 +126,7 @@
     <ClCompile Include="UserInterface\WTLControls\wtl-BitmapPicture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Plugins\PluginList.h" />
     <ClInclude Include="UserInterface\About.h" />
     <ClInclude Include="UserInterface\Debugger\CPULog.h" />
     <ClInclude Include="UserInterface\Debugger\Debugger-CPULogView.h" />
@@ -181,11 +184,13 @@
     <ClInclude Include="UserInterface\Settings\SettingsPage-DiskDrive.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Game-DiskDrive.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Game-General.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Netplay.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Plugin.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Recompiler.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Status.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-GameBrowser.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-KeyboardShortcuts.h" />
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Netplay.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Options.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage-Plugin.h" />
     <ClInclude Include="UserInterface\Settings\SettingsPage.h" />

@@ -22,4 +22,9 @@ public:
     void             ApplySettings(bool UpdateScreen);
     bool             EnableReset(void);
     void             ResetPage(void);
+
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return CSettingsPageImpl<CGameDiskDrivePage>::PageAccessible(AdvancedMode);
+    }
 };

@@ -71,6 +71,12 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(MENU_SHOW_CPU, "Show CPU &Stats");
     DEF_STR(MENU_SETTINGS, "Configura&tion");
 
+    // Netplay menu
+    DEF_STR(MENU_NETPLAY, "&Netplay");
+    DEF_STR(MENU_NETPLAY_ENABLE, "&Enable Netplay");
+    DEF_STR(MENU_NETPLAY_OPEN, "&Start Netplay");
+    DEF_STR(MENU_CONFG_NET, "&Netplay Settings");
+
     // Debugger menu
     DEF_STR(MENU_DEBUGGER, "&Debugger");
 
@@ -170,6 +176,7 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(TAB_DEFAULTS, "Defaults");
     DEF_STR(TAB_DISKDRIVE, "64DD");
     DEF_STR(TAB_DISKSETTINGS, "64DD");
+    DEF_STR(TAB_NETPLAY, "Netplay");
 
     // Plugin dialog
     DEF_STR(PLUG_ABOUT, "About");
@@ -180,6 +187,7 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(PLUG_HLE_GFX, "Graphics HLE");
     DEF_STR(PLUG_HLE_AUDIO, "Audio HLE");
     DEF_STR(PLUG_DEFAULT, "** Use System Plugin **");
+    DEF_STR(PLUG_NET, " Netplay (online) plugin: ");
 
     // Directory dialog
     DEF_STR(DIR_PLUGIN, " Plugin directory: ");
@@ -214,6 +222,7 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(OPTION_SHOW_STATUS_BAR, "Show status bar");
     DEF_STR(OPTION_EXIT_FULLSCREEN_ON_LOSE_FOCUS, "Exit fullscreen on lose focus");
     DEF_STR(OPTION_DISCORD_RPC, "Enable Discord Rich Presence");
+    DEF_STR(OPTION_CN64_TIME_CRITICAL, "Increase emulation thread priority");
 
     // ROM browser tab
     DEF_STR(RB_MAX_ROMS, "Max # of ROMs remembered (0-10):");
@@ -424,6 +433,7 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(STR_SHORTCUT_SYSTEMMENU, "System Menu");
     DEF_STR(STR_SHORTCUT_OPTIONS, "Options");
     DEF_STR(STR_SHORTCUT_SAVESLOT, "Save Slots");
+    DEF_STR(STR_SHORTCUT_NETPLAYMENU, "Netplay Menu");
 
     // Support window
     DEF_STR(MSG_SUPPORT_TITLE, "Support Project64");
@@ -445,6 +455,15 @@ void CLanguage::LoadDefaultStrings(void)
     /*** Enhancements ***/
 
     DEF_STR(ENHANCEMENT_TITLE, "Enhancements");
+
+    /*** Netplay ***/
+
+    DEF_STR(NETPLAY_TITLE, "Netplay");
+    DEF_STR(NETPLAY_ENABLE, "Enable plugin");
+    DEF_STR(NETPLAY_ENABLE_ADVANCED, "Enable plugin (Advanced Only)");
+    DEF_STR(NETPLAY_INCLUDE_UNOFFICIAL, "Include unofficial netplay plugins");
+    DEF_STR(NETPLAY_FIXED_AUDIO, "Override fixed audio timing");
+    DEF_STR(NETPLAY_SYNC_AUDIO, "Override sync using audio");
 
     /*** Messages ***/
 
@@ -513,6 +532,14 @@ void CLanguage::LoadDefaultStrings(void)
     DEF_STR(MSG_TOOL_IPL_REQUIRED, "Nintendo 64DD development IPL ROM not found.\nIt is required to play development 64DD disk images.\n\nPlease select the required ROM in the settings.");
     DEF_STR(MSG_CHEAT_INVALID_MSG, "Failed to update cheat, it is invalid");
     DEF_STR(MSG_CHEAT_INVALID_TITLE, "Invalid Cheat");
+    DEF_STR(MSG_NETPLAY_ENABLED_TITLE, "Netplay Plugin Disabled");
+    DEF_STR(MSG_NETPLAY_ENABLED_MSG, "Advanced use only!!!\nDisabling netplay plugins removes any netplay-specific changes from Project64. You will not be able to play online.\n\nThis is not advised. Change setting anyway?");
+    DEF_STR(MSG_NETPLAY_INCLUDE_UNOFFICIAL_TITLE, "Unofficial Netplay Plugins");
+    DEF_STR(MSG_NETPLAY_INCLUDE_UNOFFICIAL_MSG, "Advanced use only!!!\nUnofficial plugins may not be integrated as well as official plugins. Currently, only unofficial plugins exist.\n\nChange setting anyway?");
+    DEF_STR(MSG_NETPLAY_FIXED_AUDIO_TITLE, "Netplay Fixed Audio Timing");
+    DEF_STR(MSG_NETPLAY_FIXED_AUDIO_MSG, "Desyncs likely!!!\nWhen netplay is enabled, Fixed Audio Timing is always set ON. Disabling this will make desyncs more likely.\n\nThis is not advised. Change setting anyway?");
+    DEF_STR(MSG_NETPLAY_SYNC_AUDIO_TITLE, "Netplay Sync Using Audio");
+    DEF_STR(MSG_NETPLAY_SYNC_AUDIO_MSG, "Performance drop likely!!!\nWhen netplay is enabled, Sync Using Audio is always set OFF. Disabling this will improve accuracy, but impact performance for all players.\n\nThis is not advised. Change setting anyway?");
 
     /*** Android ***/
 

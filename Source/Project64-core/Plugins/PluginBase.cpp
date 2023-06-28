@@ -309,6 +309,9 @@ bool CPlugin::ValidPluginVersion(PLUGIN_INFO & PluginInfo)
         break;
     case PLUGIN_TYPE_NETPLAY:
         if (PluginInfo.Version == 0x0101) { return true; }
+        if (PluginInfo.Version == NETPLAY_ADAPTER_TYPE::KAILLERA_UNKNOWN) { return true; }
+        if (PluginInfo.Version == NETPLAY_ADAPTER_TYPE::KAILLERA_0_9) { return true; }
+        if (PluginInfo.Version == NETPLAY_ADAPTER_TYPE::AQZ_UNKNOWN) { return true; }
         break;
     }
     return false;

@@ -30,6 +30,11 @@ public:
     bool             EnableReset(void);
     void             ResetPage(void);
 
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return CSettingsPageImpl<CGameRecompilePage>::PageAccessible(AdvancedMode);
+    }
+
 private:
     CPartialGroupBox m_SelfModGroup;
 };

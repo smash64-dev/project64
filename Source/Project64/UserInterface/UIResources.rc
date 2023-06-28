@@ -31,12 +31,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""WinResrc.h""\r\n"
     "\r\n"
@@ -47,7 +47,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -338,18 +338,21 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Start Emulation when rom is opened?",IDC_START_ON_ROM_OPEN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,8,191,10
-    CONTROL         "Automatically compress instant saves",IDC_ZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,23,191,10
-    CONTROL         "Enable Debugger",IDC_DEBUGGER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,38,191,10
-    CONTROL         "Always use interpreter core",IDC_INTERPRETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,53,191,10
-    CONTROL         "Remember selected cheats",IDC_REMEMBER_CHEAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,68,191,10
+    CONTROL         "Automatically compress instant saves",IDC_ZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,191,10
+    CONTROL         "Enable Debugger",IDC_DEBUGGER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,36,191,10
+    CONTROL         "Always use interpreter core",IDC_INTERPRETER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,191,10
+    CONTROL         "Remember selected cheats",IDC_REMEMBER_CHEAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,64,191,10
     CONTROL         "Check if project64 is already running",IDC_CHECK_RUNNING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,83,189,10
-    CONTROL         "Enable Enhancements",IDC_ENABLE_ENHANCEMENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,98,189,10
-    CONTROL         "Unique Game Save Directory",IDC_UNIQUE_SAVE_DIR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,113,189,10
-    CONTROL         "Frame rate display",IDC_DISPLAY_FRAMERATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,128,86,10
-    COMBOBOX        IDC_FRAME_DISPLAY_TYPE,101,129,99,57,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Show Status Bar",IDC_SHOW_STATUS_BAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,142,189,10
-    CONTROL         "Exit Fullscreen on Lose Focus",IDC_EXIT_FULLSCREEN_ON_LOSE_FOCUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,156,189,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,78,189,10
+    CONTROL         "Enable Enhancements",IDC_ENABLE_ENHANCEMENTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,92,189,10
+    CONTROL         "Unique Game Save Directory",IDC_UNIQUE_SAVE_DIR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,106,189,10
+    CONTROL         "Frame rate display",IDC_DISPLAY_FRAMERATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,120,86,10
+    COMBOBOX        IDC_FRAME_DISPLAY_TYPE,101,121,99,57,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Show Status Bar",IDC_SHOW_STATUS_BAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,134,189,10
+    CONTROL         "Exit Fullscreen on Lose Focus",IDC_EXIT_FULLSCREEN_ON_LOSE_FOCUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,148,189,10
+    CONTROL         "Increase emulation thread priority",IDC_CN64_TIME_CRITICAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,162,189,10
 END
 
 IDD_Settings_ShellInt DIALOGEX 0, 0, 231, 206
@@ -484,8 +487,8 @@ BEGIN
     RTEXT           "Game Directory:",IDC_GAME_DIR_STATIC,6,99,60,12
     EDITTEXT        IDC_GAME_DIR,76,97,130,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_SELECT_GAME_DIR,209,97,17,12
-    CONTROL         "– GLideN64 –\nFor modern PC",IDC_RADIO_GLIDEN64,"Button",BS_AUTORADIOBUTTON | BS_CENTER | BS_PUSHLIKE | BS_MULTILINE,75,115,70,24
-    CONTROL         "– Project64 Video –\nFor older PC",IDC_RADIO_PJ64_VIDEO,
+    CONTROL         "ï¿½ GLideN64 ï¿½\nFor modern PC",IDC_RADIO_GLIDEN64,"Button",BS_AUTORADIOBUTTON | BS_CENTER | BS_PUSHLIKE | BS_MULTILINE,75,115,70,24
+    CONTROL         "ï¿½ Project64 Video ï¿½\nFor older PC",IDC_RADIO_PJ64_VIDEO,
                     "Button",BS_AUTORADIOBUTTON | BS_CENTER | BS_PUSHLIKE | BS_MULTILINE,153,115,73,24
     RTEXT           "Video Plugin:",IDC_VIDEO_PLUGIN_STATIC,6,117,60,14
 END
@@ -642,8 +645,8 @@ CAPTION "Commands"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_ADDR_EDIT,323,2,45,14,ES_UPPERCASE | ES_AUTOHSCROLL
-    PUSHBUTTON      "‹",IDC_BACK_BTN,298,1,11,15,WS_DISABLED
-    PUSHBUTTON      "›",IDC_FORWARD_BTN,310,1,11,15,WS_DISABLED
+    PUSHBUTTON      "ï¿½",IDC_BACK_BTN,298,1,11,15,WS_DISABLED
+    PUSHBUTTON      "ï¿½",IDC_FORWARD_BTN,310,1,11,15,WS_DISABLED
     PUSHBUTTON      "...",IDC_SYMBOLS_BTN,370,1,21,15
     PUSHBUTTON      "Skip",IDC_SKIP_BTN,392,1,34,15,WS_DISABLED
     PUSHBUTTON      "Step",IDC_STEP_BTN,427,1,34,15,WS_DISABLED
@@ -1421,6 +1424,35 @@ BEGIN
     EDITTEXT        IDC_ADD_EDIT,7,7,109,12,ES_AUTOHSCROLL
 END
 
+IDD_Settings_Netplay DIALOGEX 0, 0, 231, 206
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        NET_LIST,7,36,155,79,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "About",NET_ABOUT,166,36,44,13,WS_DISABLED
+    GROUPBOX        "Netplay:",IDC_NET_NAME,6,26,208,40
+    CONTROL         "Override fixed audio timing",IDC_NETPLAY_FIXED_AUDIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,72,206,10
+    CONTROL         "Override sync using audio",IDC_NETPLAY_SYNC_AUDIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,85,206,10
+    CONTROL         "Enable Plugin",IDC_NET_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,7,206,10
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME | SS_SUNKEN,6,19,208,1
+    CONTROL         "Include unofficial netplay plugins",IDC_NETPLAY_INCLUDE_UNOFFICIAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,52,201,10
+END
+
+IDD_Settings_GameNetplay DIALOGEX 0, 0, 231, 206
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Override fixed audio timing",IDC_NETPLAY_FIXED_AUDIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,7,206,10
+    CONTROL         "Override sync using audio",IDC_NETPLAY_SYNC_AUDIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,20,206,10
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1895,6 +1927,22 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 179
     END
+
+    IDD_Settings_Netplay, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 131
+    END
+
+    IDD_Settings_GameNetplay, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 172
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -2282,6 +2330,16 @@ BEGIN
     0
 END
 
+IDD_Settings_Netplay AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_Settings_GameNetplay AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -2291,29 +2349,29 @@ END
 IDD_Debugger_AddSymbol DLGINIT
 BEGIN
     IDC_TYPE_COMBOBOX, 0x403, 5, 0
-0x6f63, 0x6564, "\000" 
+0x6f63, 0x6564, "\000"
     IDC_TYPE_COMBOBOX, 0x403, 5, 0
-0x6164, 0x6174, "\000" 
+0x6164, 0x6174, "\000"
     IDC_TYPE_COMBOBOX, 0x403, 3, 0
-0x3875, "\000" 
+0x3875, "\000"
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3175, 0x0036, 
+0x3175, 0x0036,
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3375, 0x0032, 
+0x3375, 0x0032,
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3675, 0x0034, 
+0x3675, 0x0034,
     IDC_TYPE_COMBOBOX, 0x403, 3, 0
-0x3873, "\000" 
+0x3873, "\000"
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3173, 0x0036, 
+0x3173, 0x0036,
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3373, 0x0032, 
+0x3373, 0x0032,
     IDC_TYPE_COMBOBOX, 0x403, 4, 0
-0x3673, 0x0034, 
+0x3673, 0x0034,
     IDC_TYPE_COMBOBOX, 0x403, 6, 0
-0x6c66, 0x616f, 0x0074, 
+0x6c66, 0x616f, 0x0074,
     IDC_TYPE_COMBOBOX, 0x403, 7, 0
-0x6f64, 0x6275, 0x656c, "\000" 
+0x6f64, 0x6275, 0x656c, "\000"
     0
 END
 
@@ -2339,4 +2397,3 @@ IDR_JSAPI_TEXT          TEXT                    "API.js"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

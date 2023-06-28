@@ -13,6 +13,7 @@ public:
     virtual void             ApplySettings(bool UpdateScreen) = 0;
     virtual bool             EnableReset(void) = 0;
     virtual void             ResetPage(void) = 0;
+    virtual bool             PageAccessible(bool AdvancedMode) = 0;
 };
 
 template <class T>
@@ -531,6 +532,15 @@ public:
             SendMessage(GetParent(), PSM_CHANGED, (WPARAM)m_hWnd, 0);
         }
     }
+
+#pragma warning(push)
+#pragma warning(disable : 4100) // warning C4100: 'AdvancedMode': unreferenced formal parameter
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return true;
+    }
+#pragma warning(pop)
+
 protected:
     TextBoxList     m_TxtBoxList;
     ButtonList      m_ButtonList;
@@ -560,12 +570,14 @@ public:
 #include "SettingsPage-Defaults.h"
 #include "SettingsPage-Directories.h"
 #include "SettingsPage-Game-General.h"
+#include "SettingsPage-Game-Netplay.h"
 #include "SettingsPage-Game-Plugin.h"
 #include "SettingsPage-Game-Recompiler.h"
 #include "SettingsPage-Game-DiskDrive.h"
 #include "SettingsPage-Game-Status.h"
 #include "SettingsPage-GameBrowser.h"
 #include "SettingsPage-KeyboardShortcuts.h"
+#include "SettingsPage-Netplay.h"
 #include "SettingsPage-Options.h"
 #include "SettingsPage-Plugin.h"
 #include "SettingsPage-DiskDrive.h"

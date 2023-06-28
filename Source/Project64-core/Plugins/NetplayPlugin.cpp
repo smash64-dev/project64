@@ -13,9 +13,23 @@ CNetplayPlugin::~CNetplayPlugin()
     WriteTrace(TraceNetplayPlugin, TraceDebug, "Done");
 }
 
+bool CNetplayPlugin::Load(const char* FileName)
+{
+    if (CPlugin::Load(FileName))
+    {
+        return true;
+    }
+    if (!g_Settings->LoadBool(Netplay_SupportUnofficial))
+    {
+        return false;
+    }
+    // TODO: need to load via adapters
+    return false;
+}
+
 bool CNetplayPlugin::LoadFunctions(void)
 {
-    return true;
+    return false;
 }
 
 bool CNetplayPlugin::Initiate(CN64System * System, RenderWindow * Window)

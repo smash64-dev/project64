@@ -104,7 +104,11 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
     AddHandler(Setting_ApplicationName, new CSettingTypeTempString(""));
     AddHandler(Setting_UseFromRegistry, new CSettingTypeApplication("Settings", "Use Registry", (uint32_t)false));
     AddHandler(Setting_RdbEditor, new CSettingTypeApplication("Settings", "Rdb Editor", false));
+#ifdef NETPLAY
+    AddHandler(Setting_CN64TimeCritical, new CSettingTypeApplication("Settings", "CN64TimeCritical", true));
+#else
     AddHandler(Setting_CN64TimeCritical, new CSettingTypeApplication("Settings", "CN64TimeCritical", false));
+#endif
     AddHandler(Setting_AutoStart, new CSettingTypeApplication("Settings", "Auto Start", (uint32_t)true));
     AddHandler(Setting_AutoZipInstantSave, new CSettingTypeApplication("Settings", "Auto Zip Saves", (uint32_t)true));
     AddHandler(Setting_EraseGameDefaults, new CSettingTypeApplication("Settings", "Erase on default", (uint32_t)true));
@@ -246,6 +250,8 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
     AddHandler(Game_RandomizeSIPIInterrupts, new CSettingTypeGame("Randomize SI/PI Interrupts", Rdb_RandomizeSIPIInterrupts));
 	AddHandler(Game_RPCKey, new CSettingTypeTempString(""));
     AddHandler(Game_DiskSeekTiming, new CSettingTypeGame("DiskSeekTiming", Rdb_DiskSeekTiming));
+    AddHandler(Game_Netplay_ForceFixedAudio, new CSettingTypeGame("Netplay Force Fixed Audio", Netplay_ForceFixedAudio));
+    AddHandler(Game_Netplay_ForceSyncViaAudio, new CSettingTypeGame("Netplay Force Sync Audio", Netplay_ForceSyncViaAudio));
 
     // User interface
     AddHandler(UserInterface_ShowCPUPer, new CSettingTypeApplication("Settings", "Display CPU Usage", (uint32_t)false));
@@ -382,13 +388,21 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
 	AddHandler(Plugin_GFX_Current, new CSettingTypeApplication("Plugin", "Graphics Dll", Plugin_GFX_Default));
 	AddHandler(Plugin_AUDIO_Current, new CSettingTypeApplication("Plugin", "Audio Dll", "Audio\\Project64-Audio_d.dll"));
     AddHandler(Plugin_CONT_Current, new CSettingTypeApplication("Plugin", "Controller Dll", "Input\\Project64-Input_d.dll"));
+#ifdef NETPLAY
+    AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", "Netplay\\kailleraclient.dll"));
+#else
     AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", ""));
+#endif
 #else
     AddHandler(Plugin_GFX_Default, new CSettingTypeApplication("Plugin", "Graphics Dll Default", "GFX\\Project64-Video.dll"));
     AddHandler(Plugin_GFX_Current, new CSettingTypeApplication("Plugin", "Graphics Dll", Plugin_GFX_Default));
     AddHandler(Plugin_AUDIO_Current, new CSettingTypeApplication("Plugin", "Audio Dll", "Audio\\Project64-Audio.dll"));
     AddHandler(Plugin_CONT_Current, new CSettingTypeApplication("Plugin", "Controller Dll", "Input\\Project64-Input.dll"));
+#ifdef NETPLAY
+    AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", "Netplay\\kailleraclient.dll"));
+#else
     AddHandler(Plugin_NET_Current, new CSettingTypeApplication("Plugin", "Netplay Dll", ""));
+#endif
 #endif
 #else
     AddHandler(Plugin_RSP_Current, new CSettingTypeApplication("Plugin", "RSP Dll", "libProject64-rsp-hle.so"));
@@ -433,6 +447,23 @@ void CSettings::AddHowToHandleSetting(const char * BaseDirectory)
     AddHandler(Logging_LogCache, new CSettingTypeApplication("Logging", "Log Cache", false));
     AddHandler(Logging_LogRomHeader, new CSettingTypeApplication("Logging", "Generate Log Files", false));
     AddHandler(Logging_LogUnknown, new CSettingTypeApplication("Logging", "Log Rom Header", false));
+
+    // Netplay
+#ifdef NETPLAY
+    AddHandler(Netplay_PluginEnabled, new CSettingTypeApplication("Netplay", "Enable Plugin", true));
+    AddHandler(Netplay_SupportUnofficial, new CSettingTypeApplication("Netplay", "Support Unofficial", true));
+    AddHandler(Netplay_ForceFixedAudio, new CSettingTypeApplication("Netplay", "Force Fixed Audio", true));
+    AddHandler(Netplay_ForceSyncViaAudio, new CSettingTypeApplication("Netplay", "Force Sync Audio", true));
+    AddHandler(Netplay_PluginOpened, new CSettingTypeTempBool(false));
+    AddHandler(Netplay_PluginRunning, new CSettingTypeTempBool(false));
+#else
+    AddHandler(Netplay_PluginEnabled, new CSettingTypeApplication("Netplay", "Enable Plugin", false));
+    AddHandler(Netplay_SupportUnofficial, new CSettingTypeApplication("Netplay", "Support Unofficial", false));
+    AddHandler(Netplay_ForceFixedAudio, new CSettingTypeApplication("Netplay", "Force Fixed Audio", true));
+    AddHandler(Netplay_ForceSyncViaAudio, new CSettingTypeApplication("Netplay", "Force Sync Audio", true));
+    AddHandler(Netplay_PluginOpened, new CSettingTypeTempBool(false));
+    AddHandler(Netplay_PluginRunning, new CSettingTypeTempBool(false));
+#endif
 
 	WriteTrace(TraceAppInit, TraceDebug, "Done");
 }

@@ -46,6 +46,9 @@
     <Filter Include="Header Files\User Interface Headers\Debugger Headers">
       <UniqueIdentifier>{c4249d55-df70-4453-b017-b548514ad094}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Plugin Source">
+      <UniqueIdentifier>{86bc6475-baef-4964-bf88-724ef91c835e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -254,6 +257,12 @@
     </ClCompile>
     <ClCompile Include="UserInterface\RomBrowser.cpp">
       <Filter>Source Files\User Interface Source</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Game-Netplay.cpp">
+      <Filter>Source Files\User Interface Source\Settings Source</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface\Settings\SettingsPage-Netplay.cpp">
+      <Filter>Source Files\User Interface Source\Settings Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +502,15 @@
     </ClInclude>
     <ClInclude Include="UserInterface\CheatUI.h">
       <Filter>Header Files\User Interface Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Game-Netplay.h">
+      <Filter>Header Files\User Interface Headers\Settings Header</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface\Settings\SettingsPage-Netplay.h">
+      <Filter>Header Files\User Interface Headers\Settings Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugins\PluginList.h">
+      <Filter>Header Files\Plugin Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

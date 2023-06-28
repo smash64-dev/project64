@@ -3,8 +3,9 @@
 #include "PluginList.h"
 #include <Project64-core/Plugins/PluginBase.h>
 
-CPluginList::CPluginList(bool bAutoFill /* = true */) :
-m_PluginDir(g_Settings->LoadStringVal(Directory_Plugin), "")
+CPluginList::CPluginList(bool bAutoFill /* = true */, bool bUseAdapters) :
+    m_PluginDir(g_Settings->LoadStringVal(Directory_Plugin), ""),
+    m_UseAdapters(bUseAdapters)
 {
     if (bAutoFill)
     {
@@ -37,6 +38,12 @@ bool CPluginList::LoadList()
     AddPluginFromDir(m_PluginDir);
     WriteTrace(TraceUserInterface, TraceDebug, "Done");
     return true;
+}
+
+bool CPluginList::LoadList(bool bUseAdapters)
+{
+    m_UseAdapters = bUseAdapters;
+    return LoadList();
 }
 
 void CPluginList::AddPluginFromDir(CPath Dir)
@@ -75,16 +82,26 @@ void CPluginList::AddPluginFromDir(CPath Dir)
                 continue;
             }
 
+            PLUGIN Plugin = { 0 };
+            Plugin.Info.MemoryBswaped = true;
+
             void(CALL *GetDllInfo) (PLUGIN_INFO * PluginInfo);
             GetDllInfo = (void(CALL *)(PLUGIN_INFO *))GetProcAddress(hLib, "GetDllInfo");
-            if (GetDllInfo == nullptr)
+            if (GetDllInfo == nullptr && !m_UseAdapters)
             {
                 continue;
             }
-
-            PLUGIN Plugin = { 0 };
-            Plugin.Info.MemoryBswaped = true;
-            GetDllInfo(&Plugin.Info);
+            if (m_UseAdapters)
+            {
+                if (CPluginList::KailleraPluginInfo(Dir, &Plugin.Info) == nullptr)
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                GetDllInfo(&Plugin.Info);
+            }
             if (!CPlugin::ValidPluginVersion(Plugin.Info))
             {
                 continue;
@@ -106,4 +123,49 @@ void CPluginList::AddPluginFromDir(CPath Dir)
             hLib = nullptr;
         }
     }
+}
+
+DynLibHandle CPluginList::KailleraPluginInfo(const char* Path, PLUGIN_INFO* PluginInfo)
+{
+    HMODULE hLib = nullptr;
+
+    WriteTrace(TracePlugins, TraceDebug, "Loading %s", Path);
+    hLib = LoadLibraryA(Path);
+
+    if (hLib == nullptr)
+    {
+        DWORD LoadError = GetLastError();
+        WriteTrace(TracePlugins, TraceDebug, "Failed to load %s (error: %d)", Path, LoadError);
+        return nullptr;
+    }
+
+    void(_stdcall * kailleraGetVersion) (void*);
+    kailleraGetVersion = (void(_stdcall*)(void*))GetProcAddress(hLib, "_kailleraGetVersion@4");
+    if (kailleraGetVersion == nullptr)
+    {
+        return nullptr;
+    }
+
+    char version[100] = { 0 };
+    kailleraGetVersion(version);
+
+    PluginInfo->Type = PLUGIN_TYPE_NETPLAY;
+    PluginInfo->NormalMemory = false;
+    PluginInfo->MemoryBswaped = true;
+
+    if (_stricmp(version, "0.9") == 0)
+    {
+        PluginInfo->Version = NETPLAY_ADAPTER_TYPE::KAILLERA_0_9;
+    }
+    else if (_stricmp(version, "") != 0)
+    {
+        PluginInfo->Version = NETPLAY_ADAPTER_TYPE::KAILLERA_UNKNOWN;
+    }
+    else
+    {
+        return nullptr;
+    }
+
+    sprintf(PluginInfo->Name, "Kaillera %s (Adapter)", version);
+    return hLib;
 }

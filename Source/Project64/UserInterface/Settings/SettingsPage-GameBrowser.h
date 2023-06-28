@@ -26,6 +26,11 @@ public:
     bool             EnableReset(void);
     void             ResetPage(void);
 
+    bool PageAccessible(bool AdvancedMode)
+    {
+        return CSettingsPageImpl<COptionsGameBrowserPage>::PageAccessible(AdvancedMode);
+    }
+
 private:
     void  UpdatePageSettings(void);
     void  UpdateFieldList(const ROMBROWSER_FIELDS_LIST & Fields);

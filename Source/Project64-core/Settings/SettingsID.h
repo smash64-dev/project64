@@ -176,6 +176,8 @@ enum SettingID
     Game_RandomizeSIPIInterrupts,
 	Game_RPCKey,
     Game_DiskSeekTiming,
+    Game_Netplay_ForceFixedAudio,
+    Game_Netplay_ForceSyncViaAudio,
 
     // General game running info
     GameRunning_LoadingInProgress,
@@ -307,6 +309,14 @@ enum SettingID
     Plugin_UseHleGfx,
     Plugin_UseHleAudio,
     Plugin_EnableAudio,
+
+    // Netplay
+    Netplay_PluginEnabled,
+    Netplay_SupportUnofficial,
+    Netplay_ForceFixedAudio,
+    Netplay_ForceSyncViaAudio,
+    Netplay_PluginOpened,
+    Netplay_PluginRunning,
 
     Logging_GenerateLog,
     Logging_LogRDRamRegisters,

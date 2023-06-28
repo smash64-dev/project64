@@ -31,6 +31,11 @@ public:
 	bool             EnableReset   ( void );
 	void             ResetPage     ( void );
 
+	bool PageAccessible( bool AdvancedMode )
+	{
+		return CSettingsPageImpl<COptionsShortCutsPage>::PageAccessible(AdvancedMode);
+	}
+
 private:
 	void    OnCpuStateChanged      ( UINT Code, int id, HWND ctl );
 	void    OnRemoveClicked        ( UINT Code, int id, HWND ctl );

@@ -429,6 +429,10 @@ void CShortCuts::Load(bool InitialValues)
     AddShortCut(ID_OPTIONS_CPU_USAGE, STR_SHORTCUT_OPTIONS, MENU_SHOW_CPU, CMenuShortCutKey::ACCESS_GAME_RUNNING);
     AddShortCut(ID_OPTIONS_SETTINGS, STR_SHORTCUT_OPTIONS, MENU_SETTINGS, CMenuShortCutKey::ACCESS_NOT_IN_FULLSCREEN);
 
+    // Netplay menu
+    AddShortCut(ID_NETPLAY_OPEN, STR_SHORTCUT_NETPLAYMENU, MENU_NETPLAY_OPEN, CMenuShortCutKey::ACCESS_GAME_NOT_RUNNING);
+    AddShortCut(ID_NETPLAY_CONFIG_NET, STR_SHORTCUT_NETPLAYMENU, MENU_CONFG_NET, CMenuShortCutKey::ACCESS_NOT_IN_FULLSCREEN);
+
     CPath ShortCutFile = UISettingsLoadStringVal(SupportFile_ShortCuts);
     if (!ShortCutFile.Exists() || InitialValues)
     {
@@ -473,6 +477,7 @@ void CShortCuts::Load(bool InitialValues)
         m_ShortCuts.find(ID_SYSTEM_GSBUTTON)->second.AddShortCut(VK_F9, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_OPTIONS_INCREASE_SPEED)->second.AddShortCut(VK_OEM_PLUS, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
         m_ShortCuts.find(ID_OPTIONS_DECREASE_SPEED)->second.AddShortCut(VK_OEM_MINUS, false, false, false, CMenuShortCutKey::ACCESS_GAME_RUNNING);
+        m_ShortCuts.find(ID_NETPLAY_OPEN)->second.AddShortCut('N', TRUE, false, false, CMenuShortCutKey::ACCESS_GAME_NOT_RUNNING);
     }
     else
     {
