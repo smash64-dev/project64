@@ -291,7 +291,7 @@ void CPlugins::RomOpened(void)
     m_RSP->RomOpened(m_MainWindow);
     m_Audio->RomOpened(m_MainWindow);
     m_Control->RomOpened(m_MainWindow);
-    m_Netplay->RomOpened(m_MainWindow);
+    //m_Netplay->RomOpened(m_MainWindow); //TODO: fix and re-enable
 
     WriteTrace(TracePlugins, TraceDebug, "Done");
 }
@@ -304,7 +304,7 @@ void CPlugins::RomClosed(void)
     m_RSP->RomClose(m_MainWindow);
     m_Audio->RomClose(m_MainWindow);
     m_Control->RomClose(m_MainWindow);
-    m_Netplay->RomClose(m_MainWindow);
+    //m_Netplay->RomClose(m_MainWindow); //TODO: fix and re-enable
 
     WriteTrace(TracePlugins, TraceDebug, "Done");
 }
@@ -317,7 +317,7 @@ bool CPlugins::Initiate(CN64System * System)
     if (m_Audio == nullptr) { return false; }
     if (m_RSP == nullptr) { return false; }
     if (m_Control == nullptr) { return false; }
-    if (m_Netplay == nullptr) { return false; }
+    //if (m_Netplay == nullptr) { return false; } //TODO: fix and re-enable
 
     WriteTrace(TraceGFXPlugin, TraceDebug, "GFX initiate starting");
     if (!m_Gfx->Initiate(System, m_MainWindow))   { return false; }
@@ -332,7 +332,7 @@ bool CPlugins::Initiate(CN64System * System)
     if (!m_RSP->Initiate(this, System))   { return false; }
     WriteTrace(TraceRSPPlugin, TraceDebug, "RSP initiate done");
     WriteTrace(TraceNetplayPlugin, TraceDebug, "Netplay initiate starting");
-    if (!m_Netplay->Initiate(System, m_MainWindow)) { return false; }
+    //if (!m_Netplay->Initiate(System, m_MainWindow)) { return false; } //TODO: fix and re-enable
     WriteTrace(TraceNetplayPlugin, TraceDebug, "Netplay initiate done");
     WriteTrace(TracePlugins, TraceDebug, "Done");
     m_initilized = true;
